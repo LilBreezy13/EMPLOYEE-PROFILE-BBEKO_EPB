@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login - Employee/Admin</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: #f4f4f4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1000px;
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      display: flex;
+      flex-wrap: wrap;
+      position: relative;
+    }
+
+    .top-toggle {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background-color: #e0e0e0;
+      border-radius: 50px;
+      display: flex;
+      overflow: hidden;
+    }
+
+    .top-toggle button {
+      padding: 0.5rem 1.5rem;
+      border: none;
+      background-color: transparent;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .top-toggle button.active {
+      background-color: #4a4aff;
+      color: white;
+    }
+
+    .left-side, .right-side {
+      flex: 1 1 300px;
+      padding: 2rem;
+    }
+
+    .left-side {
+      background: #f9f9f9;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    .left-side img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .right-side {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      padding-top: 5rem;
+    }
+
+    .form-header {
+      background-color: #4a4aff;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+      border-radius: 10px 10px 0 0;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    .form-container {
+      background-color: white;
+      border-radius: 0 0 10px 10px;
+      padding: 2rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-toggle {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 1rem;
+    }
+
+    .form-toggle button {
+      padding: 0.5rem 1rem;
+      border: none;
+      background-color: transparent;
+      color: #fff;
+      border-bottom: 2px solid transparent;
+      margin: 0 1rem;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    .form-toggle button.active {
+      border-bottom: 2px solid #fff;
+      font-weight: bold;
+    }
+
+    form {
+      display: none;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    form.active {
+      display: flex;
+    }
+
+    form input, form select {
+      padding: 0.75rem;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+    }
+
+    form button {
+      padding: 0.75rem;
+      background-color: #4a4aff;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .character {
+      max-width: 100px;
+      margin-top: 1rem;
+    }
+
+    @media screen and (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+
+      .top-toggle {
+        position: static;
+        margin: 1rem auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="top-toggle">
+      <button class="active" id="employeeBtn">Employee</button>
+      <button id="adminBtn">Admin</button>
+    </div>
+
+    <div class="left-side">
+      <img src="https://via.placeholder.com/250x150" alt="illustration" />
+      <img src="https://via.placeholder.com/100" class="character" alt="character" />
+    </div>
+
+    <div class="right-side">
+      <div id="employeeForms">
+        <div class="form-header" id="employeeFormHeader">Login</div>
+        <div class="form-container">
+          <div class="form-toggle">
+            <button class="active" id="loginToggle">Login</button>
+            <button id="signupToggle">Signup</button>
+          </div>
+
+          <form id="employeeLoginForm" class="active">
+            <input type="email" placeholder="Email Address" required />
+            <input type="password" placeholder="Password" required />
+            <a href="#" style="font-size: 0.9rem; color: #666; text-decoration: none">Forgot Password?</a>
+            <button type="submit">Log In</button>
+          </form>
+
+          <form id="employeeSignupForm">
+            <input type="text" placeholder="Full Name" required />
+            <input type="email" placeholder="Email Address" required />
+            <input type="password" placeholder="Password" required />
+            <select required>
+              <option value="">Select Department</option>
+              <option value="marketing">Marketing</option>
+              <option value="office assistant">Office Assistant</option>
+              <option value="mis">MIS</option>
+              <option value="pure marketer">Pure Marketer</option>
+              <option value="managements">Managements</option>
+              <option value="examiner">Examiner</option>
+            </select>
+            <input type="text" placeholder="Position" required />
+            <button type="submit">Sign Up</button>
+          </form>
+        </div>
+      </div>
+
+      <div id="adminLoginForm" style="display: none;">
+        <div class="form-header">Admin Login</div>
+        <div class="form-container">
+          <form style="display: flex; flex-direction: column; gap: 1rem;">
+            <input type="text" placeholder="Admin Passkey" required />
+            <button type="submit">Admin Login</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const employeeBtn = document.getElementById('employeeBtn');
+    const adminBtn = document.getElementById('adminBtn');
+    const employeeForms = document.getElementById('employeeForms');
+    const adminLoginForm = document.getElementById('adminLoginForm');
+
+    const loginToggle = document.getElementById('loginToggle');
+    const signupToggle = document.getElementById('signupToggle');
+    const employeeLoginForm = document.getElementById('employeeLoginForm');
+    const employeeSignupForm = document.getElementById('employeeSignupForm');
+    const employeeFormHeader = document.getElementById('employeeFormHeader');
+
+    employeeBtn.addEventListener('click', () => {
+      employeeBtn.classList.add('active');
+      adminBtn.classList.remove('active');
+      employeeForms.style.display = 'block';
+      adminLoginForm.style.display = 'none';
+    });
+
+    adminBtn.addEventListener('click', () => {
+      adminBtn.classList.add('active');
+      employeeBtn.classList.remove('active');
+      employeeForms.style.display = 'none';
+      adminLoginForm.style.display = 'block';
+    });
+
+    loginToggle.addEventListener('click', () => {
+      loginToggle.classList.add('active');
+      signupToggle.classList.remove('active');
+      employeeLoginForm.classList.add('active');
+      employeeSignupForm.classList.remove('active');
+      employeeFormHeader.textContent = 'Login';
+    });
+
+    signupToggle.addEventListener('click', () => {
+      signupToggle.classList.add('active');
+      loginToggle.classList.remove('active');
+      employeeSignupForm.classList.add('active');
+      employeeLoginForm.classList.remove('active');
+      employeeFormHeader.textContent = 'Signup';
+    });
+  </script>
+</body>
+</html>
