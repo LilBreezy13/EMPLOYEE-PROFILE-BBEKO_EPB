@@ -3,102 +3,94 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Login - Employee/Admin</title>
-  <style>
+  <title>Employee/Admin Portal - Modern UI</title>
+   <style>
     * {
-      margin: 0;
-      padding: 0;
       box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 0;
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
     }
 
     body {
-      background-color: #f4f4f4;
+      background: #eaeef7;
       display: flex;
-      align-items: center;
       justify-content: center;
-      height: 100vh;
+      align-items: center;
+      min-height: 100vh;
+      padding: 1rem;
     }
 
     .container {
-      width: 90%;
+      display: flex;
+      width: 100%;
       max-width: 1000px;
       background: #fff;
       border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
       overflow: hidden;
-      display: flex;
-      flex-wrap: wrap;
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.1);
+      flex-direction: row;
+    }
+
+    .left-pane {
+      flex: 1;
+      background: linear-gradient(135deg, #6e8efb, #a777e3);
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 20% 100%, 0 80%);
       position: relative;
     }
 
-    .top-toggle {
+    .left-pane::before {
+      content: "";
       position: absolute;
-      top: 20px;
-      right: 20px;
-      background-color: #e0e0e0;
-      border-radius: 50px;
-      display: flex;
-      overflow: hidden;
-      z-index: 10;
+      inset: 0;
+      background: url('./assets/afro-american-man-suit-holding-documents-talking-female-boss.jpg') center/cover no-repeat;
+      opacity: 0.9;
+      border-radius: 0 0 60px 0;
     }
 
-    .top-toggle button {
-      padding: 0.5rem 1.5rem;
-      border: none;
-      background-color: transparent;
-      cursor: pointer;
-      transition: background-color 0.3s, color 0.3s;
-    }
-
-    .top-toggle button.active {
-      background-color: #4a4aff;
-      color: white;
-    }
-
-    .left-side, .right-side {
-      flex: 1 1 300px;
-      padding: 2rem;
-    }
-
-    .left-side {
-      background: #f9f9f9;
+    .right-pane {
+      flex: 1;
+      padding: 2rem 1.5rem;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 1rem;
-    }
-
-    .left-side img {
-      max-width: 100%;
-      height: auto;
-    }
-
-    .right-side {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      position: relative;
-      padding-top: 5rem;
-      width: 100%;
-    }
-
-    .form-header {
-      background-color: #4a4aff;
-      color: white;
-      text-align: center;
-      padding: 1rem;
-      border-radius: 10px 10px 0 0;
-      font-size: 1.5rem;
-      font-weight: bold;
+      background: linear-gradient(to bottom right, #ffff, #ffff);
     }
 
     .form-container {
-      background-color: white;
-      border-radius: 0 0 10px 10px;
-      padding: 2rem;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 330px;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 15px;
+      padding: 1.5rem;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    }
+
+    .toggle-switch {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 1.2rem;
+      background: #e6e6e6;
+      border-radius: 30px;
+      overflow: hidden;
+      width: fit-content;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .toggle-switch button {
+      border: none;
+      padding: 0.4rem 1.2rem;
+      background: none;
+      cursor: pointer;
+      transition: 0.3s;
+      font-weight: 500;
+    }
+
+    .toggle-switch button.active {
+      background: #4a90e2;
+      color: white;
     }
 
     .form-toggle {
@@ -108,95 +100,120 @@
     }
 
     .form-toggle button {
-      padding: 0.5rem 1rem;
+      background: none;
       border: none;
-      background-color: transparent;
-      color: #fff;
-      border-bottom: 2px solid transparent;
-      margin: 0 1rem;
       font-size: 1rem;
+      font-weight: bold;
+      margin: 0 0.5rem;
+      padding: 0.4rem 0;
+      border-bottom: 2px solid transparent;
       cursor: pointer;
     }
 
     .form-toggle button.active {
-      border-bottom: 2px solid #fff;
-      font-weight: bold;
+      border-color: #ffd763;
     }
 
     form {
       display: none;
       flex-direction: column;
-      gap: 1rem;
+      gap: 0.8rem;
+      animation: fadeIn 0.3s ease;
     }
 
     form.active {
       display: flex;
     }
 
-    form input, form select {
-      padding: 0.75rem;
-      border-radius: 10px;
+    input, select {
+      padding: 0.5rem 0.65rem;
+      border-radius: 8px;
       border: 1px solid #ccc;
+      font-size: 0.9rem;
     }
 
-    form button {
-      padding: 0.75rem;
-      background-color: #4a4aff;
+    label {
+      font-weight: 500;
+      margin-bottom: -0.6rem;
+      font-size: 0.85rem;
+    }
+
+    label.required::after {
+      content: " *";
+      color: red;
+    }
+
+    button.submit {
+      background: linear-gradient(to right, #f7b733, #ffd763);
       color: white;
       border: none;
-      border-radius: 10px;
+      border-radius: 8px;
+      padding: 0.6rem;
+      font-weight: bold;
       cursor: pointer;
+      transition: background 0.3s;
     }
 
-    .character {
-      max-width: 100px;
-      margin-top: 1rem;
+    button.submit:hover {
+      opacity: 0.9;
     }
 
-    @media screen and (max-width: 768px) {
+    h2 {
+      text-align: center;
+      margin-bottom: 1rem;
+      font-size: 1.4rem;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 768px) {
       .container {
         flex-direction: column;
       }
-
-      .top-toggle {
-        position: static;
-        margin: 1rem auto;
+      .left-pane {
+        min-height: 200px;
+        order: -1;
+        clip-path: none;
+        border-bottom-left-radius: 20px;
       }
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="top-toggle">
-      <button class="active" id="employeeBtn">Employee</button>
-      <button id="adminBtn">Admin</button>
-    </div>
+    <div class="left-pane"></div>
+    <div class="right-pane">
+      <div class="form-container">
+        <div class="toggle-switch">
+          <button id="employeeBtn" class="active">Employee</button>
+          <button id="adminBtn">Admin</button>
+        </div>
 
-    <div class="left-side">
-      <img src="https://via.placeholder.com/250x150" alt="illustration" />
-      <img src="https://via.placeholder.com/100" class="character" alt="character" />
-    </div>
-
-    <div class="right-side">
-      <div id="employeeForms">
-        <div class="form-header" id="employeeFormHeader">Login</div>
-        <div class="form-container">
+        <div id="employeeSection">
           <div class="form-toggle">
-            <button class="active" id="loginToggle">Login</button>
+            <button id="loginToggle" class="active">Login</button>
             <button id="signupToggle">Signup</button>
           </div>
 
           <form id="employeeLoginForm" class="active">
+            <label class="required">Email Address</label>
             <input type="email" placeholder="Email Address" required />
+            <label class="required">Password</label>
             <input type="password" placeholder="Password" required />
-            <a href="#" style="font-size: 0.9rem; color: #666; text-decoration: none">Forgot Password?</a>
-            <button type="submit">Log In</button>
+            <button type="submit" class="submit">Log In</button>
           </form>
 
           <form id="employeeSignupForm">
+            <label class="required">Full Name</label>
             <input type="text" placeholder="Full Name" required />
+            <label class="required">Email Address</label>
             <input type="email" placeholder="Email Address" required />
+            <label class="required">Password</label>
             <input type="password" placeholder="Password" required />
+            <label class="required">Department</label>
             <select required>
               <option value="">Select Department</option>
               <option value="marketing">Marketing</option>
@@ -206,18 +223,18 @@
               <option value="managements">Managements</option>
               <option value="examiner">Examiner</option>
             </select>
+            <label class="required">Position</label>
             <input type="text" placeholder="Position" required />
-            <button type="submit">Sign Up</button>
+            <button type="submit" class="submit">Sign Up</button>
           </form>
         </div>
-      </div>
 
-      <div id="adminLoginForm" style="display: none;">
-        <div class="form-header">Admin Login</div>
-        <div class="form-container">
-          <form id="adminForm" class="active">
-            <input type="text" placeholder="Admin Passkey" required />
-            <button type="submit">Admin Login</button>
+        <div id="adminSection" style="display: none;">
+          <h2>Admin Login</h2>
+          <form class="active">
+            <label class="required">Admin Passkey</label>
+            <input type="password" placeholder="Enter Admin Passkey" required />
+            <button type="submit" class="submit">Login</button>
           </form>
         </div>
       </div>
@@ -227,44 +244,41 @@
   <script>
     const employeeBtn = document.getElementById('employeeBtn');
     const adminBtn = document.getElementById('adminBtn');
-    const employeeForms = document.getElementById('employeeForms');
-    const adminLoginForm = document.getElementById('adminLoginForm');
+    const employeeSection = document.getElementById('employeeSection');
+    const adminSection = document.getElementById('adminSection');
 
     const loginToggle = document.getElementById('loginToggle');
     const signupToggle = document.getElementById('signupToggle');
-    const employeeLoginForm = document.getElementById('employeeLoginForm');
-    const employeeSignupForm = document.getElementById('employeeSignupForm');
-    const employeeFormHeader = document.getElementById('employeeFormHeader');
+    const loginForm = document.getElementById('employeeLoginForm');
+    const signupForm = document.getElementById('employeeSignupForm');
 
-    employeeBtn.addEventListener('click', () => {
+    employeeBtn.onclick = () => {
       employeeBtn.classList.add('active');
       adminBtn.classList.remove('active');
-      employeeForms.style.display = 'block';
-      adminLoginForm.style.display = 'none';
-    });
+      employeeSection.style.display = 'block';
+      adminSection.style.display = 'none';
+    };
 
-    adminBtn.addEventListener('click', () => {
+    adminBtn.onclick = () => {
       adminBtn.classList.add('active');
       employeeBtn.classList.remove('active');
-      employeeForms.style.display = 'none';
-      adminLoginForm.style.display = 'block';
-    });
+      employeeSection.style.display = 'none';
+      adminSection.style.display = 'block';
+    };
 
-    loginToggle.addEventListener('click', () => {
+    loginToggle.onclick = () => {
       loginToggle.classList.add('active');
       signupToggle.classList.remove('active');
-      employeeLoginForm.classList.add('active');
-      employeeSignupForm.classList.remove('active');
-      employeeFormHeader.textContent = 'Login';
-    });
+      loginForm.classList.add('active');
+      signupForm.classList.remove('active');
+    };
 
-    signupToggle.addEventListener('click', () => {
+    signupToggle.onclick = () => {
       signupToggle.classList.add('active');
       loginToggle.classList.remove('active');
-      employeeSignupForm.classList.add('active');
-      employeeLoginForm.classList.remove('active');
-      employeeFormHeader.textContent = 'Signup';
-    });
+      signupForm.classList.add('active');
+      loginForm.classList.remove('active');
+    };
   </script>
 </body>
 </html>
