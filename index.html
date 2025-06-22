@@ -40,6 +40,7 @@
       border-radius: 50px;
       display: flex;
       overflow: hidden;
+      z-index: 10;
     }
 
     .top-toggle button {
@@ -80,6 +81,7 @@
       justify-content: center;
       position: relative;
       padding-top: 5rem;
+      width: 100%;
     }
 
     .form-header {
@@ -213,7 +215,7 @@
       <div id="adminLoginForm" style="display: none;">
         <div class="form-header">Admin Login</div>
         <div class="form-container">
-          <form style="display: flex; flex-direction: column; gap: 1rem;">
+          <form id="adminForm" class="active">
             <input type="text" placeholder="Admin Passkey" required />
             <button type="submit">Admin Login</button>
           </form>
