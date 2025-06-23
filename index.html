@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Employee/Admin Portal - Modern UI</title>
-   <style>
+  <title>Employee/Admin Portal - Bbeko</title>
+  <style>
     * {
       box-sizing: border-box;
       padding: 0;
@@ -55,16 +55,27 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      background: linear-gradient(to bottom right, #ffff, #ffff);
+      background: linear-gradient(to bottom right, #ffffff, #ffffff);
     }
 
     .form-container {
       width: 100%;
       max-width: 330px;
-      background: rgba(255, 255, 255, 0.95);
+      background: rgba(255, 255, 255, 0.96);
       border-radius: 15px;
       padding: 1.5rem;
       box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+      position: relative;
+    }
+
+    .logo {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .logo img {
+      max-width: 100px;
+      height: auto;
     }
 
     .toggle-switch {
@@ -125,11 +136,16 @@
       display: flex;
     }
 
+    .input-group {
+      position: relative;
+    }
+
     input, select {
       padding: 0.5rem 0.65rem;
       border-radius: 8px;
       border: 1px solid #ccc;
       font-size: 0.9rem;
+      width: 100%;
     }
 
     label {
@@ -143,9 +159,20 @@
       color: red;
     }
 
+    .toggle-password {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 0.9rem;
+      color: #555;
+    }
+
     button.submit {
       color: white;
-      /* background: linear-gradient(to right, #f7b733, #ffd763);x */
       background: red;
       border: none;
       border-radius: 8px;
@@ -165,6 +192,27 @@
       font-size: 1.4rem;
     }
 
+    .page-header{
+      color: red;
+    }
+
+
+    .forgot-password {
+  text-align: right;
+  margin-top: -0.4rem;
+  margin-bottom: 0.6rem;
+}
+
+.forgot-password a {
+  font-size: 0.85rem;
+  color: red;
+  text-decoration: none;
+}
+
+.forgot-password a:hover {
+  text-decoration: underline;
+}
+
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
@@ -174,6 +222,7 @@
       .container {
         flex-direction: column;
       }
+
       .left-pane {
         min-height: 200px;
         order: -1;
@@ -188,6 +237,12 @@
     <div class="left-pane"></div>
     <div class="right-pane">
       <div class="form-container">
+        <!-- <div class="logo"> -->
+          <!-- <img src="./assets/logo. bbeko.jpg" alt="Company Logo" /> -->
+           <!-- <p><span><b></b>Best Brain Staff Profile Portal</span></p> -->
+            <!-- <h4 class="page-header" ><b>Best Brain Staffs Profile </b></h4> -->
+        <!-- </div> -->
+
         <div class="toggle-switch">
           <button id="employeeBtn" class="active">Employee</button>
           <button id="adminBtn">Admin</button>
@@ -202,9 +257,16 @@
           <form id="employeeLoginForm" class="active">
             <label class="required">Email Address</label>
             <input type="email" placeholder="Email Address" required />
-            <label class="required">Password</label>
-            <input type="password" placeholder="Password" required />
-            <button type="submit" class="submit">Log In</button>
+          <label class="required">Password</label>
+<div class="input-group">
+  <input type="password" placeholder="Password" required />
+  <button type="button" class="toggle-password">👁️</button>
+</div>
+<div class="forgot-password">
+  <a href="#">Forgot Password?</a>
+</div>
+<button type="submit" class="submit">Log In</button>
+
           </form>
 
           <form id="employeeSignupForm">
@@ -213,12 +275,14 @@
             <label class="required">Email Address</label>
             <input type="email" placeholder="Email Address" required />
             <label class="required">Password</label>
-            <input type="password" placeholder="Password" required />
+            <div class="input-group">
+              <input type="password" placeholder="Password" required />
+              <button type="button" class="toggle-password">👁️</button>
+            </div>
             <label class="required">Department</label>
             <select required>
               <option value="">Select Department</option>
               <option value="marketing">Marketing</option>
-              <!-- <option value="office assistant">Office Assistant</option> -->
               <option value="mis">Production</option>
               <option value="pure marketer">Exams Department</option>
               <option value="managements">Managements</option>
@@ -234,7 +298,10 @@
           <h2>Admin Login</h2>
           <form class="active">
             <label class="required">Admin Passkey</label>
-            <input type="password" placeholder="Enter Admin Passkey" required />
+            <div class="input-group">
+              <input type="password" placeholder="Enter Admin Passkey" required />
+              <button type="button" class="toggle-password">👁️</button>
+            </div>
             <button type="submit" class="submit">Login</button>
           </form>
         </div>
@@ -247,7 +314,6 @@
     const adminBtn = document.getElementById('adminBtn');
     const employeeSection = document.getElementById('employeeSection');
     const adminSection = document.getElementById('adminSection');
-
     const loginToggle = document.getElementById('loginToggle');
     const signupToggle = document.getElementById('signupToggle');
     const loginForm = document.getElementById('employeeLoginForm');
@@ -280,6 +346,15 @@
       signupForm.classList.add('active');
       loginForm.classList.remove('active');
     };
+
+    // Password visibility toggles
+    document.querySelectorAll('.toggle-password').forEach(button => {
+      button.addEventListener('click', () => {
+        const input = button.previousElementSibling;
+        input.type = input.type === 'password' ? 'text' : 'password';
+        button.textContent = input.type === 'password' ? '👁️' : '🙈';
+      });
+    });
   </script>
 </body>
 </html>
