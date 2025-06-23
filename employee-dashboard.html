@@ -1,493 +1,421 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Staff Profile Portal</title>
-  <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Staff Form Portal</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
   <style>
-    /* Global Styles */
-body {
-  font-family: 'Segoe UI', sans-serif;
-  margin: 0;
-  background: #f4f6fb;
-  color: #333;
-}
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+      background-color: #f4f6f8;
+    }
+    .sidebar {
+      width: 260px;
+      background: #fff;
+      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s ease-in-out;
+      z-index: 11;
+    }
+    .sidebar h2 {
+      text-align: center;
+      padding: 1rem;
+      background-color: #007bff;
+      color: #fff;
+      font-size: 1.2rem;
+    }
+    .sidebar nav {
+      flex: 1;
+      padding: 1rem;
+    }
+    .sidebar nav button {
+      background: none;
+      border: none;
+      padding: 0.75rem 1rem;
+      text-align: left;
+      width: 100%;
+      font-size: 1rem;
+      cursor: pointer;
+      border-radius: 5px;
+      margin-bottom: 0.5rem;
+      transition: background 0.2s;
+    }
+    .sidebar nav button:hover,
+    .sidebar nav button.active {
+      background: #e7f0ff;
+    }
+    .logout {
+      padding: 1rem;
+      text-align: center;
+      border-top: 1px solid #ddd;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .logout:hover {
+      background-color: #f8d7da;
+      color: #721c24;
+    }
+    .hamburger {
+      display: none;
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      z-index: 15;
+      background: #fff;
+      padding: 0.4rem;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    .content {
+      flex: 1;
+      padding: 2rem;
+      overflow-y: auto;
+    }
+    .form-section {
+      display: none;
+      animation: fadeIn 0.4s ease-in-out forwards;
+    }
+    .form-section.active {
+      display: block;
+    }
+    .form-section h3 {
+      margin-bottom: 2rem;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @media (max-width: 768px) {
+      .sidebar {
+        position: absolute;
+        height: 100%;
+        transform: translateX(-100%);
+        z-index: 10;
+      }
+      .sidebar.show {
+        transform: translateX(0);
+      }
+      .hamburger {
+        display: block;
+      }
+      .form-grid {
+        grid-template-columns: 1fr !important;
+      }
+    }
+    .progress-container {
+      margin-bottom: 1rem;
+      padding: 1rem;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .progress-bar {
+      background-color: #007bff;
+      height: 10px;
+      border-radius: 5px;
+      width: 0%;
+      transition: width 0.3s;
+    }
+    .progress-text {
+      text-align: right;
+      font-size: 0.9rem;
+      margin-top: 0.2rem;
+      color: #333;
+    }
+    form {
+      background: #fff;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    .form-group {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    form input, form select {
+      padding: 0.6rem;
+      font-size: 0.95rem;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      width: 100%;
+    }
+    form button {
+      padding: 0.8rem 1.5rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 6px;
+      margin-top: 1rem;
+    }
+    form button[type="submit"] {
+      background-color: #007bff;
+      color: #fff;
+    }
+    .re-edit-btn {
+      background-color: #ffc107;
+      margin-left: 1rem;
+    }
+    .modal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      display: none;
+      z-index: 999;
+    }
+    .modal.active {
+      display: block;
+      animation: fadeIn 0.3s ease-out;
+    }
+    .modal h4 {
+      margin-bottom: 1rem;
+      font-size: 1.2rem;
+      color: #28a745;
+    }
+    .modal button {
+      padding: 0.5rem 1rem;
+      background: #28a745;
+      border: none;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .children-table input {
+      width: 100%;
+      padding: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .children-table {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
 
-.container {
-  display: flex;
-  min-height: 100vh;
-}
 
-/* Sidebar */
-.sidebar {
-  width: 250px;
-  background-color: #1f2937;
-  color: white;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.sidebar h2 {
-  margin-top: 0;
-}
-
-.sidebar ul {
-  list-style: none;
-  padding: 0;
-}
-
-.sidebar .nav-link {
-  padding: 10px;
+    /* Circular, styled radio buttons */
+input[type="radio"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #007bff;
+  border-radius: 50%;
+  outline: none;
+  margin-right: 8px;
+  position: relative;
   cursor: pointer;
-  border-radius: 5px;
-  margin: 5px 0;
-  background: #374151;
-  transition: background 0.3s;
+}
+input[type="radio"]:checked::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  background: #007bff;
+  border-radius: 50%;
+  position: absolute;
+  top: 3px;
+  left: 3px;
 }
 
-.sidebar .nav-link:hover,
-.sidebar .nav-link.active {
-  background: #2563eb;
-}
-
-.logout {
-  margin-top: 20px;
-  padding: 10px;
-  background: crimson;
-  border: none;
-  color: white;
-  cursor: pointer;
-}
-
-/* Main Content */
-main {
-  flex: 1;
-  padding: 20px;
-  overflow-y: auto;
-}
-
-.content-section {
-  display: none;
-  animation: fadeIn 0.5s ease-in-out;
-}
-
-.content-section.active {
-  display: block;
-}
-
-/* Form Styles */
-.form-section {
+/* Marital option label styling */
+.marital-options {
   display: flex;
-  flex-direction: column;
-  gap: 10px;
-  max-width: 600px;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
-
-input, select, button {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-button[type=submit],
-button.re-edit {
-  background: #2563eb;
-  color: white;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-
-button[type=submit]:hover,
-button.re-edit:hover {
-  background: #1d4ed8;
-}
-
-.hidden {
-  display: none !important;
-}
-
-/* Progress Bar */
-.progress-bar {
-  background: #e5e7eb;
-  border-radius: 10px;
-  overflow: hidden;
-  height: 20px;
-  margin-bottom: 20px;
-}
-
-#progress-fill {
-  height: 100%;
-  background: #2563eb;
-  width: 0%;
-  transition: width 0.4s ease;
-}
-
-/* Welcome Animation */
-#welcome {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: white;
+.marital-options label {
   display: flex;
   align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  animation: fadeOut 3s forwards 2s;
+  font-size: 1rem;
 }
 
-@keyframes fadeOut {
-  to {
-    opacity: 0;
-    visibility: hidden;
-  }
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-/* Upload Cards */
-.upload-card {
-  background: #e0e7ff;
-  padding: 10px;
-  border: 2px dashed #60a5fa;
-  border-radius: 8px;
-  margin-bottom: 10px;
-}
-
-/* Responsive */
-@media screen and (max-width: 768px) {
-  .container {
+/* Responsive: stack vertically on mobile */
+@media (max-width: 768px) {
+  .marital-options {
     flex-direction: column;
+    gap: 0.75rem;
   }
-  .sidebar {
-    width: 100%;
-    flex-direction: row;
-    flex-wrap: wrap;
-  }
-  .sidebar ul {
-    display: flex;
-    flex-wrap: wrap;
-  }
-  .sidebar .nav-link {
-    flex: 1 1 45%;
-    margin: 5px;
-    text-align: center;
-  }
+}
+
+/* Deep placeholder color for better visibility */
+input::placeholder,
+select::placeholder {
+  color: #555;
+  font-weight: 500;
+}
+
+/* Space between children header and form */
+#spouseDetails h4 {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
 }
 
   </style>
 </head>
 <body>
-  <!-- Welcome Animation -->
-  <div id="welcome" class="welcome-animation">
-    <h1>Welcome, Nicholas Hunsu</h1>
+  <div class="hamburger" onclick="toggleSidebar()">
+    <i class="fas fa-bars"></i>
   </div>
+  <aside class="sidebar" id="sidebar">
+    <h2>MiPeople</h2>
+    <nav>
+      <button onclick="showSection('dashboard')" class="active">Dashboard</button>
+      <button onclick="showSection('personal')">Personal Details</button>
+      <button onclick="showSection('marital')">Marital Status</button>
+    </nav>
+    <div class="logout" onclick="logoutUser()">
+      <i class="fas fa-sign-out-alt"></i> Logout
+    </div>
+  </aside>
+  <main class="content">
+    <div id="dashboard" class="form-section active">
+      <div class="progress-container">
+        <h3>Form Completion</h3>
+        <div class="progress-bar" id="progressBar"></div>
+        <div class="progress-text" id="progressText">0%</div>
+      </div>
+      <div id="formOverview"></div>
+    </div>
 
-  <!-- Main Container -->
-  <div class="container">
-    <!-- Sidebar Navigation -->
-    <aside class="sidebar">
-      <h2>Employee Profile</h2>
-      <nav>
-        <ul>
-          <li class="nav-link active" data-section="dashboard">Dashboard</li>
-          <li class="nav-link" data-section="personal">Personal Details</li>
-          <li class="nav-link" data-section="marital">Marital Status</li>
-          <li class="nav-link" data-section="parents">Parents Information</li>
-          <li class="nav-link" data-section="education">Educational Background</li>
-          <li class="nav-link" data-section="employment">Employment Details</li>
-          <li class="nav-link" data-section="health">Health Status</li>
-          <li class="nav-link" data-section="references">References</li>
-          <li class="nav-link" data-section="contacts">Contact Persons</li>
-          <li class="nav-link" data-section="documents">Documents Uploads</li>
-        </ul>
-      </nav>
-      <button id="logout" class="logout">Logout</button>
-    </aside>
-
-    <!-- Main Content Area -->
-    <main id="main-content">
-      <!-- Dashboard Section -->
-      <section id="dashboard" class="content-section active">
-        <h2>Dashboard</h2>
-        <div class="progress-bar">
-          <div id="progress-fill" style="width: 0%;"></div>
-        </div>
-        <div id="form-overview">
-          <!-- Summary will be dynamically injected -->
-        </div>
-      </section>
-
-      <!-- Personal Details Section -->
-      <section id="personal" class="content-section">
-        <h2>Personal Details</h2>
-        <form class="form-section" data-section="personal">
-          <input type="text" placeholder="Full Name" required>
-          <input type="text" placeholder="Surname" required>
-          <input type="text" placeholder="Middle Name">
-          <input type="text" placeholder="First Name" required>
-          <input type="date" placeholder="DOB" required>
-          <input type="text" placeholder="Place of Birth" required>
-          <input type="text" placeholder="Hometown">
-          <input type="text" placeholder="Current Residence">
-          <select required>
+    <div id="personal" class="form-section">
+      <h3>Personal Details</h3>
+      <form id="personalForm">
+        <div class="form-grid">
+          <input type="text" name="surname" placeholder="Surname" required />
+          <input type="text" name="middleName" placeholder="Middlename"  />
+          <input type="text" name="firstName" placeholder="First Name" required />
+          <input type="date" name="dob" placeholder="Date of Birth" required />
+          <input type="text" name="placeOfBirth" placeholder="Place of Birth" required />
+          <input type="text" name="hometown" placeholder="Hometown" required />
+          <input type="text" name="residence" placeholder="Current Place of Residence" required />
+          <select name="religion" required>
             <option value="">Select Religion</option>
             <option>Christianity</option>
             <option>Islam</option>
             <option>Traditional</option>
             <option>Other</option>
           </select>
-          <input type="tel" pattern="\d+" placeholder="Contact" required>
-          <button type="submit">Submit</button>
-          <button type="button" class="re-edit" style="display:none">Re-edit</button>
-        </form>
-      </section>
+          <input type="tel" name="contact" placeholder="Contact Number" pattern="[0-9]+" required />
+        </div>
+        <button type="submit">Submit</button>
+        <button type="button" class="re-edit-btn" onclick="enableEdit(this)">Re-Edit</button>
+      </form>
+    </div>
 
-      <!-- Marital Status Section -->
-      <section id="marital" class="content-section">
-        <h2>Marital Status</h2>
-        <form class="form-section" data-section="marital">
-          <label><input type="radio" name="status" value="Single"> Single</label>
-          <label><input type="radio" name="status" value="Married"> Married</label>
-          <label><input type="radio" name="status" value="Separated"> Separated</label>
-          <label><input type="radio" name="status" value="Divorced"> Divorced</label>
-          <div id="married-details" style="display: none;">
-            <input type="text" placeholder="Spouse Name">
-            <input type="date" placeholder="Spouse DOB">
-            <input type="tel" pattern="\d+" placeholder="Spouse Contact">
-            <input type="number" placeholder="Number of Children">
-            <table>
-              <thead><tr><th>Name</th><th>DOB</th></tr></thead>
-              <tbody>
-                <tr><td><input type="text"></td><td><input type="date"></td></tr>
-                <tr><td><input type="text"></td><td><input type="date"></td></tr>
-                <tr><td><input type="text"></td><td><input type="date"></td></tr>
-              </tbody>
-            </table>
+    <div id="marital" class="form-section">
+      <h3>Marital Status</h3>
+      <form id="maritalForm">
+        <div class="form-group marital-options">
+  <label><input type="radio" name="status" value="Single" onchange="toggleSpouseSection(this)"> Single</label>
+<label><input type="radio" name="status" value="Married" onchange="toggleSpouseSection(this)"> Married</label>
+<label><input type="radio" name="status" value="Separated" onchange="toggleSpouseSection(this)"> Separated</label>
+<label><input type="radio" name="status" value="Divorced" onchange="toggleSpouseSection(this)"> Divorced</label>
+
+</div>
+
+        <div id="spouseDetails" style="display:none; margin-top: 1rem;">
+          <div class="form-grid">
+            <input type="text" name="spouseName" placeholder="Name of Spouse">
+            <input type="date" name="spouseDob" placeholder="Spouse DOB">
+            <input type="tel" name="spouseContact" placeholder="Spouse Contact" pattern="[0-9]+">
+            <input type="number" name="numChildren" placeholder="Number of Children">
           </div>
-          <button type="submit">Submit</button>
-          <button type="button" class="re-edit" style="display:none">Re-edit</button>
-        </form>
-      </section>
-
-      <!-- Parents Information Section -->
-      <section id="parents" class="content-section">
-        <h2>Parents Information</h2>
-        <form class="form-section" data-section="parents">
-          <div class="parent-info">
-            <h3>Father</h3>
-            <input type="text" placeholder="Father's Name">
-            <label><input type="checkbox"> Living</label>
-            <label><input type="checkbox"> Deceased</label>
-            <input type="tel" pattern="\d+" placeholder="Father's Contact">
+          <h4 style="margin-top: 1rem;">First Three Children</h4>
+          <div class="children-table">
+            <input type="text" name="child1Name" placeholder="Child 1 Name">
+            <input type="date" name="child1Dob" placeholder="Child 1 DOB">
+            <input type="text" name="child2Name" placeholder="Child 2 Name">
+            <input type="date" name="child2Dob" placeholder="Child 2 DOB">
+            <input type="text" name="child3Name" placeholder="Child 3 Name">
+            <input type="date" name="child3Dob" placeholder="Child 3 DOB">
           </div>
-          <div class="parent-info">
-            <h3>Mother</h3>
-            <input type="text" placeholder="Mother's Name">
-            <label><input type="checkbox"> Living</label>
-            <label><input type="checkbox"> Deceased</label>
-            <input type="tel" pattern="\d+" placeholder="Mother's Contact">
-          </div>
-          <button type="submit">Submit</button>
-          <button type="button" class="re-edit" style="display:none">Re-edit</button>
-        </form>
-      </section>
+        </div>
+        <button type="submit">Submit</button>
+        <button type="button" class="re-edit-btn" onclick="enableEdit(this)">Re-Edit</button>
+      </form>
+    </div>
 
-      <!-- Educational Background Section -->
-      <section id="education" class="content-section">
-        <h2>Educational Background</h2>
-        <div id="school-list"></div>
-        <button id="add-school">Add School</button>
-        <form class="form-section hidden" id="school-form">
-          <input type="text" placeholder="Institution Name">
-          <input type="text" placeholder="Year (From - To)">
-          <select>
-            <option>Degree</option>
-            <option>Diploma</option>
-            <option>HND</option>
-            <option>WASSCE</option>
-            <option>O Level</option>
-            <option>A Level</option>
-          </select>
-          <button type="submit">Submit</button>
-          <button type="button" class="re-edit" style="display:none">Re-edit</button>
-        </form>
-      </section>
+<!-- PARENTAL INFO ------------------  -->
 
-      <!-- Employment Details Section -->
-      <section id="employment" class="content-section">
-        <h2>Employment Details</h2>
-        <div id="job-list"></div>
-        <button id="add-job">Add Employment</button>
-        <form class="form-section hidden" id="job-form">
-          <input type="text" placeholder="Organization Name">
-          <input type="text" placeholder="Year (From - To)">
-          <input type="text" placeholder="Position Held">
-          <button type="submit">Submit</button>
-          <button type="button" class="re-edit" style="display:none">Re-edit</button>
-        </form>
-      </section>
 
-      <!-- Health Status Section -->
-      <section id="health" class="content-section">
-        <h2>Health Status</h2>
-        <form class="form-section" data-section="health">
-          <input type="text" placeholder="Any allergies?">
-          <input type="text" placeholder="Any chronic illnesses?">
-          <input type="text" placeholder="Common illnesses experienced?">
-          <input type="text" placeholder="Any other health information?">
-          <button type="submit">Submit</button>
-          <button type="button" class="re-edit" style="display:none">Re-edit</button>
-        </form>
-      </section>
-
-      <!-- References Section -->
-      <section id="references" class="content-section">
-        <h2>References</h2>
-        <form class="form-section" data-section="references">
-          <input type="text" placeholder="Next of Kin Full Name">
-          <input type="date" placeholder="DOB">
-          <input type="tel" pattern="\d+" placeholder="Contact">
-          <button type="submit">Submit</button>
-          <button type="button" class="re-edit" style="display:none">Re-edit</button>
-        </form>
-      </section>
-
-      <!-- Contact Persons Section -->
-      <section id="contacts" class="content-section">
-        <h2>Contact Persons</h2>
-        <form class="form-section" data-section="contacts">
-          <input type="text" placeholder="Full Name">
-          <input type="text" placeholder="Relationship">
-          <input type="tel" pattern="\d+" placeholder="Contact">
-          <input type="text" placeholder="Full Name">
-          <input type="text" placeholder="Relationship">
-          <input type="tel" pattern="\d+" placeholder="Contact">
-          <button type="submit">Submit</button>
-          <button type="button" class="re-edit" style="display:none">Re-edit</button>
-        </form>
-      </section>
-
-      <!-- Document Upload Section -->
-      <section id="documents" class="content-section">
-        <h2>Documents Upload</h2>
-        <p>NB: PLEASE ATTACH PHOTOCOPIES OF ALL YOUR CERTIFICATES LISTED, TWO PASSPORT PICTURES AND CV. INCLUDE ANY MEDICAL RELATED ATTACHMENT.</p>
-        <form class="form-section" data-section="documents">
-          <div class="upload-card">Upload CV <input type="file" accept=".doc,.docx,.pdf"></div>
-          <div class="upload-card">Upload 2 Passport Photos <input type="file" accept=".jpg,.png" multiple></div>
-          <div class="upload-card">Medical Attachments <input type="file" accept=".doc,.docx,.pdf,.jpg,.png"></div>
-          <div class="upload-card">Academic Certificates <input type="file" accept=".doc,.docx,.pdf"></div>
-          <button id="add-more-certificates">Add More Certificates</button>
-          <button type="submit">Submit</button>
-          <button type="button" class="re-edit" style="display:none">Re-edit</button>
-        </form>
-      </section>
-    </main>
+  </main>
+  <div class="modal" id="successModal">
+    <h4>Form submitted successfully!</h4>
+    <button onclick="closeModal()">Close</button>
   </div>
-
-
   <script>
-// Welcome animation
-window.addEventListener('DOMContentLoaded', () => {
-  setTimeout(() => {
-    document.getElementById('welcome').style.display = 'none';
-  }, 3000);
-});
-
-// Sidebar navigation
-const navLinks = document.querySelectorAll('.nav-link');
-const sections = document.querySelectorAll('.content-section');
-
-navLinks.forEach(link => {
-  link.addEventListener('click', () => {
-    navLinks.forEach(l => l.classList.remove('active'));
-    link.classList.add('active');
-    const sectionId = link.dataset.section;
-    sections.forEach(section => {
-      section.classList.remove('active');
-      if (section.id === sectionId) section.classList.add('active');
-    });
-  });
-});
-
-// Submit form and lock
-document.querySelectorAll('.form-section').forEach(form => {
-  form.addEventListener('submit', e => {
-    e.preventDefault();
-    const inputs = form.querySelectorAll('input, select, button:not(.re-edit)');
-    inputs.forEach(input => input.disabled = true);
-    form.querySelector('.re-edit').style.display = 'inline-block';
-    updateProgress();
-  });
-
-  form.querySelector('.re-edit')?.addEventListener('click', () => {
-    const inputs = form.querySelectorAll('input, select, button');
-    inputs.forEach(input => input.disabled = false);
-    form.querySelector('.re-edit').style.display = 'none';
-  });
-});
-
-// Marital status toggle
-const maritalRadios = document.querySelectorAll('input[name=\"status\"]');
-const marriedDetails = document.getElementById('married-details');
-
-maritalRadios.forEach(radio => {
-  radio.addEventListener('change', () => {
-    if (radio.value === 'Married') {
-      marriedDetails.style.display = 'block';
-    } else {
-      marriedDetails.style.display = 'none';
+    const sections = document.querySelectorAll('.form-section');
+    const sidebarButtons = document.querySelectorAll('.sidebar nav button');
+    function showSection(id) {
+      sections.forEach(sec => sec.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      sidebarButtons.forEach(btn => btn.classList.remove('active'));
+      [...sidebarButtons].find(btn => btn.textContent.trim().toLowerCase().includes(id)).classList.add('active');
+      if (window.innerWidth <= 768) document.getElementById('sidebar').classList.remove('show');
     }
-  });
-});
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('show');
+    }
+    function logoutUser() {
+      alert('Logging out...');
+      setTimeout(() => {
+        window.location.href = '/logout';
+      }, 1000);
+    }
+    document.getElementById('personalForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      this.querySelectorAll('input, select').forEach(el => el.disabled = true);
+      document.getElementById('progressBar').style.width = '10%';
+      document.getElementById('progressText').innerText = '10%';
+      document.getElementById('successModal').classList.add('active');
+    });
+    document.getElementById('maritalForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      this.querySelectorAll('input, select').forEach(el => el.disabled = true);
+      document.getElementById('progressBar').style.width = '20%';
+      document.getElementById('progressText').innerText = '20%';
+      document.getElementById('successModal').classList.add('active');
+    });
+    function closeModal() {
+      document.getElementById('successModal').classList.remove('active');
+    }
+    function enableEdit(btn) {
+      const form = btn.closest('form');
+      form.querySelectorAll('input, select').forEach(el => el.disabled = false);
+    }
 
-// Logout animation
-document.getElementById('logout').addEventListener('click', () => {
-  const overlay = document.createElement('div');
-  overlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:white;z-index:9999;display:flex;align-items:center;justify-content:center;font-size:2em;';
-  overlay.innerText = 'Logging out...';
-  document.body.appendChild(overlay);
-  setTimeout(() => {
-    window.location.reload(); // Simulated logout
-  }, 2000);
-});
+   function toggleSpouseSection(radio) {
+  const spouseSection = document.getElementById('spouseDetails');
 
-// Dynamic add for schools and jobs
-document.getElementById('add-school').addEventListener('click', () => {
-  document.getElementById('school-form').classList.remove('hidden');
-});
-
-document.getElementById('add-job').addEventListener('click', () => {
-  document.getElementById('job-form').classList.remove('hidden');
-});
-
-// Add certificate upload card
-document.getElementById('add-more-certificates')?.addEventListener('click', (e) => {
-  e.preventDefault();
-  const container = e.target.closest('form');
-  const newCard = document.createElement('div');
-  newCard.className = 'upload-card';
-  newCard.innerHTML = 'Additional Certificate <input type=\"file\" accept=\".doc,.docx,.pdf\">';
-  container.insertBefore(newCard, e.target);
-});
-
-// Progress bar calculation
-function updateProgress() {
-  const totalSections = document.querySelectorAll('.form-section').length;
-  const completed = Array.from(document.querySelectorAll('.form-section')).filter(f => f.querySelector('.re-edit')?.style.display === 'inline-block').length;
-  const percent = Math.floor((completed / totalSections) * 100);
-  document.getElementById('progress-fill').style.width = `${percent}%`;
+  // If 'Married' is selected, show the spouse section
+  if (radio.value === 'Married') {
+    spouseSection.style.display = 'block';
+  } else {
+    // If another status is selected, hide and clear the spouse section
+    spouseSection.style.display = 'none';
+    const inputs = spouseSection.querySelectorAll('input');
+    inputs.forEach(input => input.value = '');
+  }
 }
 
-  </script>
 
-  <!-- <script src="script.js"></script> -->
+  </script>
 </body>
 </html>
