@@ -1,495 +1,1465 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Staff Form Portal</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      display: flex;
-      height: 100vh;
-      overflow: hidden;
-      background-color: #f4f6f8;
-    }
-    .sidebar {
-      width: 260px;
-      background: #fff;
-      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-      display: flex;
-      flex-direction: column;
-      transition: transform 0.3s ease-in-out;
-      z-index: 11;
-    }
-    .sidebar h2 {
-      text-align: center;
-      padding: 1rem;
-      background-color: #007bff;
-      color: #fff;
-      font-size: 1.2rem;
-    }
-    .sidebar nav {
-      flex: 1;
-      padding: 1rem;
-    }
-    .sidebar nav button {
-      background: none;
-      border: none;
-      padding: 0.75rem 1rem;
-      text-align: left;
-      width: 100%;
-      font-size: 1rem;
-      cursor: pointer;
-      border-radius: 5px;
-      margin-bottom: 0.5rem;
-      transition: background 0.2s;
-    }
-    .sidebar nav button:hover,
-    .sidebar nav button.active {
-      background: #e7f0ff;
-    }
-    .logout {
-      padding: 1rem;
-      text-align: center;
-      border-top: 1px solid #ddd;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-    .logout:hover {
-      background-color: #f8d7da;
-      color: #721c24;
-    }
-    .hamburger {
-      display: none;
-      position: fixed;
-      top: 15px;
-      left: 15px;
-      font-size: 1.5rem;
-      cursor: pointer;
-      z-index: 15;
-      background: #fff;
-      padding: 0.4rem;
-      border-radius: 5px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-    }
-    .content {
-      flex: 1;
-      padding: 2rem;
-      overflow-y: auto;
-    }
-    .form-section {
-      display: none;
-      animation: fadeIn 0.4s ease-in-out forwards;
-    }
-    .form-section.active {
-      display: block;
-    }
-    .form-section h3 {
-      margin-bottom: 2rem;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @media (max-width: 768px) {
-      .sidebar {
-        position: absolute;
-        height: 100%;
-        transform: translateX(-100%);
-        z-index: 10;
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Staff Form Portal</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
       }
-      .sidebar.show {
-        transform: translateX(0);
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        display: flex;
+        height: 100vh;
+        overflow: hidden;
+        background-color: #f4f6f8;
+      }
+      .sidebar {
+        width: 260px;
+        background: #fff;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        transition: transform 0.3s ease-in-out;
+        z-index: 11;
+      }
+      .sidebar h2 {
+        text-align: center;
+        padding: 1rem;
+        background-color: #007bff;
+        color: #fff;
+        font-size: 1.2rem;
+      }
+      .sidebar nav {
+        flex: 1;
+        padding: 1rem;
+      }
+      .sidebar nav button {
+        background: none;
+        border: none;
+        padding: 0.75rem 1rem;
+        text-align: left;
+        width: 100%;
+        font-size: 1rem;
+        cursor: pointer;
+        border-radius: 5px;
+        margin-bottom: 0.5rem;
+        transition: background 0.2s;
+      }
+      .sidebar nav button:hover,
+      .sidebar nav button.active {
+        background: #e7f0ff;
+      }
+      .logout {
+        padding: 1rem;
+        text-align: center;
+        border-top: 1px solid #ddd;
+        cursor: pointer;
+        transition: background 0.3s ease;
+      }
+      .logout:hover {
+        background-color: #f8d7da;
+        color: #721c24;
       }
       .hamburger {
+        display: none;
+        position: fixed;
+        top: 15px;
+        left: 15px;
+        font-size: 1.5rem;
+        cursor: pointer;
+        z-index: 15;
+        background: #fff;
+        padding: 0.4rem;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+      .content {
+        flex: 1;
+        padding: 2rem;
+        overflow-y: auto;
+      }
+      .form-section {
+        display: none;
+        animation: fadeIn 0.4s ease-in-out forwards;
+      }
+      .form-section.active {
         display: block;
       }
-      .form-grid {
-        grid-template-columns: 1fr !important;
+      .form-section h3 {
+        margin-bottom: 2rem;
       }
-    }
-    .progress-container {
-      margin-bottom: 1rem;
-      padding: 1rem;
-      background: #fff;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    .progress-bar {
-      background-color: #007bff;
-      height: 10px;
-      border-radius: 5px;
-      width: 0%;
-      transition: width 0.3s;
-    }
-    .progress-text {
-      text-align: right;
-      font-size: 0.9rem;
-      margin-top: 0.2rem;
-      color: #333;
-    }
-    form {
-      background: #fff;
-      padding: 1.5rem;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    }
-    .form-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-    }
-    .form-group {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-    form input, form select {
-      padding: 0.6rem;
-      font-size: 0.95rem;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-      width: 100%;
-    }
-    form button {
-      padding: 0.8rem 1.5rem;
-      font-size: 1rem;
-      border: none;
-      border-radius: 6px;
-      margin-top: 1rem;
-    }
-    form button[type="submit"] {
-      background-color: #007bff;
-      color: #fff;
-    }
-    .re-edit-btn {
-      background-color: #ffc107;
-      margin-left: 1rem;
-    }
-    .modal {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: white;
-      padding: 2rem;
-      border-radius: 8px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-      display: none;
-      z-index: 999;
-    }
-    .modal.active {
-      display: block;
-      animation: fadeIn 0.3s ease-out;
-    }
-    .modal h4 {
-      margin-bottom: 1rem;
-      font-size: 1.2rem;
-      color: #28a745;
-    }
-    .modal button {
-      padding: 0.5rem 1rem;
-      background: #28a745;
-      border: none;
-      color: white;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    .children-table input {
-      width: 100%;
-      padding: 0.5rem;
-      margin-bottom: 0.5rem;
-    }
-    .children-table {
-      width: 100%;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-    }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @media (max-width: 768px) {
+        .sidebar {
+          position: absolute;
+          height: 100%;
+          transform: translateX(-100%);
+          z-index: 10;
+        }
+        .sidebar.show {
+          transform: translateX(0);
+        }
+        .hamburger {
+          display: block;
+        }
+        .form-grid {
+          grid-template-columns: 1fr !important;
+        }
+      }
+      .progress-container {
+        margin-bottom: 1rem;
+        padding: 1rem;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .progress-bar {
+        background-color: #007bff;
+        height: 10px;
+        border-radius: 5px;
+        width: 0%;
+        transition: width 0.3s;
+      }
+      .progress-text {
+        text-align: right;
+        font-size: 0.9rem;
+        margin-top: 0.2rem;
+        color: #333;
+      }
+      form {
+        background: #fff;
+        padding: 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+      .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+      }
+      .form-group {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+      form input,
+      form select {
+        padding: 0.6rem;
+        font-size: 0.95rem;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        width: 100%;
+      }
+      form button {
+        padding: 0.8rem 1.5rem;
+        font-size: 1rem;
+        border: none;
+        border-radius: 6px;
+        margin-top: 1rem;
+      }
+      form button[type="submit"] {
+        background-color: #007bff;
+        color: #fff;
+      }
+      .re-edit-btn {
+        background-color: #ffc107;
+        margin-left: 1rem;
+      }
+      .modal {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: white;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        display: none;
+        z-index: 999;
+      }
+      .modal.active {
+        display: block;
+        animation: fadeIn 0.3s ease-out;
+      }
+      .modal h4 {
+        margin-bottom: 1rem;
+        font-size: 1.2rem;
+        color: #28a745;
+      }
+      .modal button {
+        padding: 0.5rem 1rem;
+        background: #28a745;
+        border: none;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      .children-table input {
+        width: 100%;
+        padding: 0.5rem;
+        margin-bottom: 0.5rem;
+      }
+      .children-table {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+      }
 
+      /* Circular, styled radio buttons */
+      input[type="radio"] {
+        appearance: none;
+        -webkit-appearance: none;
+        width: 16px;
+        height: 16px;
+        border: 2px solid #007bff;
+        border-radius: 50%;
+        outline: none;
+        margin-right: 8px;
+        position: relative;
+        cursor: pointer;
+      }
+      input[type="radio"]:checked::before {
+        content: "";
+        width: 8px;
+        height: 8px;
+        background: #007bff;
+        border-radius: 50%;
+        position: absolute;
+        top: 3px;
+        left: 3px;
+      }
 
-    /* Circular, styled radio buttons */
-input[type="radio"] {
-  appearance: none;
-  -webkit-appearance: none;
-  width: 16px;
-  height: 16px;
-  border: 2px solid #007bff;
-  border-radius: 50%;
-  outline: none;
-  margin-right: 8px;
-  position: relative;
-  cursor: pointer;
-}
-input[type="radio"]:checked::before {
-  content: '';
-  width: 8px;
-  height: 8px;
-  background: #007bff;
-  border-radius: 50%;
-  position: absolute;
-  top: 3px;
-  left: 3px;
-}
+      /* Marital option label styling */
+      .marital-options {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+      .marital-options label {
+        display: flex;
+        align-items: center;
+        font-size: 1rem;
+      }
 
-/* Marital option label styling */
-.marital-options {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-.marital-options label {
-  display: flex;
-  align-items: center;
-  font-size: 1rem;
-}
+      /* Responsive: stack vertically on mobile */
+      @media (max-width: 768px) {
+        .marital-options {
+          flex-direction: column;
+          gap: 0.75rem;
+        }
+      }
 
-/* Responsive: stack vertically on mobile */
-@media (max-width: 768px) {
-  .marital-options {
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-}
+      /* Deep placeholder color for better visibility */
+      input::placeholder,
+      select::placeholder {
+        color: #555;
+        font-weight: 500;
+      }
 
-/* Deep placeholder color for better visibility */
-input::placeholder,
-select::placeholder {
-  color: #555;
-  font-weight: 500;
-}
+      /* Space between children header and form */
+      #spouseDetails h4 {
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+      }
 
-/* Space between children header and form */
-#spouseDetails h4 {
-  margin-top: 2rem;
-  margin-bottom: 1rem;
-}
+      .status-options {
+        display: flex;
+        gap: 1rem;
+        margin-top: 0.5rem;
+      }
+      .status-options label {
+        display: flex;
+        align-items: center;
+        font-size: 0.95rem;
+      }
 
+      /* Stack vertically on mobile */
+      @media (max-width: 768px) {
+        .status-options {
+          flex-direction: column;
+        }
+      }
 
-.status-options {
-  display: flex;
-  gap: 1rem;
-  margin-top: 0.5rem;
-}
-.status-options label {
-  display: flex;
-  align-items: center;
-  font-size: 0.95rem;
-}
+      input[type="checkbox"] {
+        width: 16px;
+        height: 16px;
+        accent-color: #007bff;
+        cursor: pointer;
+      }
 
-/* Stack vertically on mobile */
-@media (max-width: 768px) {
-  .status-options {
-    flex-direction: column;
-  }
-}
+      /* Ensure side-by-side year inputs on desktop */
+      .school-entry .form-group {
+        display: flex;
+        gap: 1rem;
+      }
 
+      /* Stack everything vertically on mobile */
+      @media (max-width: 768px) {
+        .school-entry {
+          display: block !important;
+        }
+        .school-entry .form-group {
+          flex-direction: column;
+        }
+      }
 
-input[type="checkbox"] {
-  width: 16px;
-  height: 16px;
-  accent-color: #007bff;
-  cursor: pointer;
-}
+      .school-entry {
+        background: #f0f8ff;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        border-radius: 8px;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+      }
 
-form input,
-form select {
-  padding: 0.6rem;
-  /* font-size: 0.95rem; */
-  /* border-radius: 5px; */
-  /* border: 1px */
-}
+      /* Stack properly on mobile */
+      @media (max-width: 768px) {
+        .school-entry .form-group {
+          flex-direction: column;
+        }
+      }
 
-  </style>
-</head>
-<body>
-  <div class="hamburger" onclick="toggleSidebar()">
-    <i class="fas fa-bars"></i>
-  </div>
-  <aside class="sidebar" id="sidebar">
-    <h2>Employee Dashboard</h2>
-    <nav>
-      <button onclick="showSection('dashboard')" class="active">Dashboard</button>
-      <button onclick="showSection('personal')">Personal Details</button>
-      <button onclick="showSection('marital')">Marital Status</button>
-      <button onclick="showSection('parent')">Parent Information</button>
-    </nav>
-    <div class="logout" onclick="logoutUser()">
-      <i class="fas fa-sign-out-alt"></i> Logout
+      .job-entry {
+        background: #f0f8ff;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        border-radius: 8px;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+      }
+
+      @media (max-width: 768px) {
+        .job-entry .form-group {
+          flex-direction: column;
+        }
+      }
+      .health-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+      }
+
+      @media (max-width: 768px) {
+        .health-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .health-card {
+        background: #f0f8ff;
+        border-radius: 10px;
+        padding: 1rem;
+        cursor: pointer;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+        transition: transform 0.2s ease;
+        overflow: hidden;
+      }
+
+      .health-card:hover {
+        transform: scale(1.01);
+      }
+
+      .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: bold;
+        gap: 0.5rem;
+      }
+
+      .icon {
+        font-size: 1.5rem;
+      }
+
+      .card-body {
+        margin-top: 0.5rem;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+      }
+
+      .card-body textarea {
+        width: 100%;
+        min-height: 80px;
+        padding: 0.5rem;
+        margin-top: 0.5rem;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        resize: vertical;
+      }
+
+      .reference-inline-form {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        background: #f0f8ff;
+        padding: 1rem;
+        border-radius: 10px;
+        align-items: flex-end;
+      }
+
+      .form-group.small {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        min-width: 160px;
+      }
+
+      .form-group.small label {
+        font-size: 0.85rem;
+        margin-bottom: 0.2rem;
+        font-weight: 500;
+      }
+
+      .form-group.small input {
+        padding: 0.4rem 0.6rem;
+        font-size: 0.9rem;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+      }
+
+      .btn-small {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.9rem;
+        border: none;
+        border-radius: 6px;
+        background: #007bff;
+        color: white;
+        cursor: pointer;
+      }
+
+      .btn-small.re-edit-btn {
+        background: #6c757d;
+      }
+
+      @media (max-width: 768px) {
+        .reference-inline-form {
+          flex-direction: column;
+        }
+      }
+
+      .next-of-kin-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        background: #f0f8ff;
+        padding: 1rem;
+        border-radius: 10px;
+        margin-bottom: 1rem;
+      }
+
+      @media (max-width: 768px) {
+        .next-of-kin-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 1rem;
+      }
+
+      .form-group label {
+        font-weight: 600;
+        margin-bottom: 0.3rem;
+      }
+
+      .form-group input {
+        padding: 0.6rem;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+      }
+
+      /* Extra spacing between subheading and form */
+      .subheading {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+      }
+
+      /* Compact spacing between input groups */
+      .compact-form {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.8rem; /* reduced from 1rem */
+      }
+
+      /* Individual input block spacing */
+      .compact-form .form-group {
+        margin-bottom: 0.5rem; /* optional - remove if using gap only */
+        max-width: 400px;
+        width: 100%;
+      }
+
+      /* Input field styling */
+      .compact-form .form-group input {
+        padding: 0.5rem 0.7rem;
+        font-size: 0.9rem;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+      }
+
+      /* Keep subheading centered only on small screens */
+      @media (max-width: 768px) {
+        .subheading {
+          text-align: center;
+        }
+
+        .compact-form {
+          align-items: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="hamburger" onclick="toggleSidebar()">
+      <i class="fas fa-bars"></i>
     </div>
-  </aside>
-  <main class="content">
-    <div id="dashboard" class="form-section active">
-      <div class="progress-container">
-        <h3>Form Completion</h3>
-        <div class="progress-bar" id="progressBar"></div>
-        <div class="progress-text" id="progressText">0%</div>
+    <aside class="sidebar" id="sidebar">
+      <h2>Employee Dashboard</h2>
+      <nav>
+        <button onclick="showSection('dashboard')" class="active">
+          Dashboard
+        </button>
+        <button onclick="showSection('personal')">Personal Details</button>
+        <button onclick="showSection('marital')">Marital Status</button>
+        <button onclick="showSection('parent')">Parent Information</button>
+        <button onclick="showSection('education')">
+          Educational Background
+        </button>
+        <button onclick="showSection('employment')">Employment Details</button>
+        <button onclick="showSection('health')">Health Status</button>
+        <button onclick="showSection('references')">References</button>
+
+        <button onclick="showSection('contactPersons')">Contact Persons</button>
+      </nav>
+      <div class="logout" onclick="logoutUser()">
+        <i class="fas fa-sign-out-alt"></i> Logout
       </div>
-      <div id="formOverview"></div>
-    </div>
-
-    <div id="personal" class="form-section">
-      <h3>Personal Details</h3>
-      <form id="personalForm">
-        <div class="form-grid">
-          <input type="text" name="surname" placeholder="Surname" required />
-          <input type="text" name="middleName" placeholder="Middlename"  />
-          <input type="text" name="firstName" placeholder="First Name" required />
-          <input type="date" name="dob" placeholder="Date of Birth" required />
-          <input type="text" name="placeOfBirth" placeholder="Place of Birth" required />
-          <input type="text" name="hometown" placeholder="Hometown" required />
-          <input type="text" name="residence" placeholder="Current Place of Residence" required />
-          <select name="religion" required>
-            <option value="">Select Religion</option>
-            <option>Christianity</option>
-            <option>Islam</option>
-            <option>Traditional</option>
-            <option>Other</option>
-          </select>
-          <input type="tel" name="contact" placeholder="Contact Number" pattern="[0-9]+" required />
+    </aside>
+    <main class="content">
+      <div id="dashboard" class="form-section active">
+        <div class="progress-container">
+          <h3>Form Completion</h3>
+          <div class="progress-bar" id="progressBar"></div>
+          <div class="progress-text" id="progressText">0%</div>
         </div>
-        <button type="submit">Submit</button>
-        <button type="button" class="re-edit-btn" onclick="enableEdit(this)">Re-Edit</button>
-      </form>
-    </div>
+        <div id="formOverview"></div>
+      </div>
 
-    <div id="marital" class="form-section">
-      <h3>Marital Status</h3>
-      <form id="maritalForm">
-        <div class="form-group marital-options">
-  <label><input type="radio" name="status" value="Single" onchange="toggleSpouseSection(this)"> Single</label>
-<label><input type="radio" name="status" value="Married" onchange="toggleSpouseSection(this)"> Married</label>
-<label><input type="radio" name="status" value="Separated" onchange="toggleSpouseSection(this)"> Separated</label>
-<label><input type="radio" name="status" value="Divorced" onchange="toggleSpouseSection(this)"> Divorced</label>
-
-</div>
-
-        <div id="spouseDetails" style="display:none; margin-top: 1rem;">
+      <div id="personal" class="form-section">
+        <h3>Personal Details</h3>
+        <form id="personalForm">
           <div class="form-grid">
-            <input type="text" name="spouseName" placeholder="Name of Spouse">
-            <input type="date" name="spouseDob" placeholder="Spouse DOB">
-            <input type="tel" name="spouseContact" placeholder="Spouse Contact" pattern="[0-9]+">
-            <input type="number" name="numChildren" placeholder="Number of Children">
+            <input type="text" name="surname" placeholder="Surname" required />
+            <input type="text" name="middleName" placeholder="Middlename" />
+            <input
+              type="text"
+              name="firstName"
+              placeholder="First Name"
+              required
+            />
+            <input
+              type="date"
+              name="dob"
+              placeholder="Date of Birth"
+              required
+            />
+            <input
+              type="text"
+              name="placeOfBirth"
+              placeholder="Place of Birth"
+              required
+            />
+            <input
+              type="text"
+              name="hometown"
+              placeholder="Hometown"
+              required
+            />
+            <input
+              type="text"
+              name="residence"
+              placeholder="Current Place of Residence"
+              required
+            />
+            <select name="religion" required>
+              <option value="">Select Religion</option>
+              <option>Christianity</option>
+              <option>Islam</option>
+              <option>Traditional</option>
+              <option>Other</option>
+            </select>
+            <input
+              type="tel"
+              name="contact"
+              placeholder="Contact Number"
+              pattern="[0-9]+"
+              required
+            />
           </div>
-          <h4 style="margin-top: 1rem;">First Three Children</h4>
-          <div class="children-table">
-            <input type="text" name="child1Name" placeholder="Child 1 Name">
-            <input type="date" name="child1Dob" placeholder="Child 1 DOB">
-            <input type="text" name="child2Name" placeholder="Child 2 Name">
-            <input type="date" name="child2Dob" placeholder="Child 2 DOB">
-            <input type="text" name="child3Name" placeholder="Child 3 Name">
-            <input type="date" name="child3Dob" placeholder="Child 3 DOB">
+          <button type="submit">Submit</button>
+          <button type="button" class="re-edit-btn" onclick="enableEdit(this)">
+            Re-Edit
+          </button>
+        </form>
+      </div>
+
+      <div id="marital" class="form-section">
+        <h3>Marital Status</h3>
+        <form id="maritalForm">
+          <div class="form-group marital-options">
+            <label
+              ><input
+                type="radio"
+                name="status"
+                value="Single"
+                onchange="toggleSpouseSection(this)"
+              />
+              Single</label
+            >
+            <label
+              ><input
+                type="radio"
+                name="status"
+                value="Married"
+                onchange="toggleSpouseSection(this)"
+              />
+              Married</label
+            >
+            <label
+              ><input
+                type="radio"
+                name="status"
+                value="Separated"
+                onchange="toggleSpouseSection(this)"
+              />
+              Separated</label
+            >
+            <label
+              ><input
+                type="radio"
+                name="status"
+                value="Divorced"
+                onchange="toggleSpouseSection(this)"
+              />
+              Divorced</label
+            >
           </div>
-        </div>
-        <button type="submit">Submit</button>
-        <button type="button" class="re-edit-btn" onclick="enableEdit(this)">Re-Edit</button>
-      </form>
+
+          <div id="spouseDetails" style="display: none; margin-top: 1rem">
+            <div class="form-grid">
+              <input
+                type="text"
+                name="spouseName"
+                placeholder="Name of Spouse"
+              />
+              <input type="date" name="spouseDob" placeholder="Spouse DOB" />
+              <input
+                type="tel"
+                name="spouseContact"
+                placeholder="Spouse Contact"
+                pattern="[0-9]+"
+              />
+              <input
+                type="number"
+                name="numChildren"
+                placeholder="Number of Children"
+              />
+            </div>
+            <h4 style="margin-top: 1rem">First Three Children</h4>
+            <div class="children-table">
+              <input type="text" name="child1Name" placeholder="Child 1 Name" />
+              <input type="date" name="child1Dob" placeholder="Child 1 DOB" />
+              <input type="text" name="child2Name" placeholder="Child 2 Name" />
+              <input type="date" name="child2Dob" placeholder="Child 2 DOB" />
+              <input type="text" name="child3Name" placeholder="Child 3 Name" />
+              <input type="date" name="child3Dob" placeholder="Child 3 DOB" />
+            </div>
+          </div>
+          <button type="submit">Submit</button>
+          <button type="button" class="re-edit-btn" onclick="enableEdit(this)">
+            Re-Edit
+          </button>
+        </form>
+      </div>
+
+      <!-- PARENTAL INFO ------------------  -->
+      <div id="parent" class="form-section">
+        <h3>Parent Information</h3>
+        <form id="parentForm">
+          <div class="form-grid">
+            <div>
+              <input
+                type="text"
+                name="motherName"
+                placeholder="Mother's Full Name"
+                required
+              />
+              <input
+                type="text"
+                name="motherOrigin"
+                placeholder="Mother's Place of Origin"
+                required
+              />
+              <div class="status-options">
+                <label
+                  ><input
+                    type="radio"
+                    name="motherStatus"
+                    value="Living"
+                    required
+                  />
+                  Living</label
+                >
+                <label
+                  ><input type="radio" name="motherStatus" value="Deceased" />
+                  Deceased</label
+                >
+              </div>
+            </div>
+
+            <div>
+              <input
+                type="text"
+                name="fatherName"
+                placeholder="Father's Full Name"
+                required
+              />
+              <input
+                type="text"
+                name="fatherOrigin"
+                placeholder="Father's Place of Origin"
+                required
+              />
+              <div class="status-options">
+                <label
+                  ><input
+                    type="radio"
+                    name="fatherStatus"
+                    value="Living"
+                    required
+                  />
+                  Living</label
+                >
+                <label
+                  ><input type="radio" name="fatherStatus" value="Deceased" />
+                  Deceased</label
+                >
+              </div>
+            </div>
+          </div>
+
+          <button type="submit">Submit</button>
+          <button type="button" class="re-edit-btn" onclick="enableEdit(this)">
+            Re-Edit
+          </button>
+        </form>
+      </div>
+
+      <!-- EDUCATIONAL INFO ------------------  -->
+      <div id="education" class="form-section">
+        <h3>Educational Background</h3>
+        <form id="educationForm">
+          <div id="educationContainer">
+            <!-- Initial school entry -->
+            <div class="school-entry">
+              <div class="form-grid">
+                <input
+                  type="text"
+                  name="institution[]"
+                  placeholder="Institution Name"
+                  required
+                />
+
+                <div class="form-group">
+                  <select name="yearFrom[]" required>
+                    <option value="">Year From</option>
+                  </select>
+                  <select name="yearTo[]" required>
+                    <option value="">Year To</option>
+                  </select>
+                </div>
+
+                <select name="certificate[]" required>
+                  <option value="">Select Certificate</option>
+                  <option>Bachelor's Degree</option>
+                  <option>Diploma</option>
+                  <option>HND</option>
+                  <option>WASSCE</option>
+                  <option>O Level</option>
+                  <option>A Level</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin: 1rem 0">
+            <button
+              type="button"
+              onclick="addEducation()"
+              style="
+                background: #28a745;
+                color: white;
+                border: none;
+                padding: 0.6rem 1rem;
+                border-radius: 5px;
+                cursor: pointer;
+              "
+            >
+              + Add More School
+            </button>
+          </div>
+
+          <button type="submit">Submit</button>
+          <button type="button" class="re-edit-btn" onclick="enableEdit(this)">
+            Re-Edit
+          </button>
+        </form>
+      </div>
+
+      <!-- EMPLOYMENT INFO ------------------  -->
+      <div id="employment" class="form-section">
+        <h3>Employment Details</h3>
+        <form id="employmentForm">
+          <div id="employmentContainer">
+            <div class="job-entry">
+              <div class="form-grid">
+                <input
+                  type="text"
+                  name="organization[]"
+                  placeholder="Organization Name"
+                  required
+                />
+
+                <div class="form-group">
+                  <select name="empYearFrom[]" required>
+                    <option value="">Year From</option>
+                  </select>
+                  <select name="empYearTo[]" required>
+                    <option value="">Year To</option>
+                  </select>
+                </div>
+
+                <input
+                  type="text"
+                  name="position[]"
+                  placeholder="Position Held"
+                  required
+                />
+              </div>
+            </div>
+          </div>
+
+          <div style="margin: 1rem 0">
+            <button
+              type="button"
+              onclick="addJob()"
+              style="
+                background: #007bff;
+                color: white;
+                border: none;
+                padding: 0.6rem 1rem;
+                border-radius: 5px;
+                cursor: pointer;
+              "
+            >
+              + Add More Job
+            </button>
+          </div>
+
+          <button type="submit">Submit</button>
+          <button type="button" class="re-edit-btn" onclick="enableEdit(this)">
+            Re-Edit
+          </button>
+        </form>
+      </div>
+
+      <!-- HEALTH STATUS  ------------------  -->
+
+      <div id="health" class="form-section">
+        <h3>Health Status</h3>
+        <form id="healthForm">
+          <div class="health-grid">
+            <!-- Q1 -->
+            <div class="health-card">
+              <div class="card-header" onclick="toggleHealthAnswer(this)">
+                <span class="icon">🩺</span>
+                <span class="question-text"
+                  >Do you have any chronic illness? If Yes, indicate</span
+                >
+                <span class="toggle-icon">➕</span>
+              </div>
+              <div class="card-body">
+                <textarea
+                  name="chronicIllness"
+                  placeholder="Enter details..."
+                  required
+                ></textarea>
+              </div>
+            </div>
+
+            <!-- Q2 -->
+            <div class="health-card">
+              <div class="card-header" onclick="toggleHealthAnswer(this)">
+                <span class="icon">🌿</span>
+                <span class="question-text"
+                  >Do you have any allergies? If Yes, Indicate</span
+                >
+                <span class="toggle-icon">➕</span>
+              </div>
+              <div class="card-body">
+                <textarea
+                  name="chronicIllness"
+                  placeholder="Enter details..."
+                  required
+                ></textarea>
+              </div>
+            </div>
+
+            <!-- Q3 -->
+            <div class="health-card">
+              <div class="card-header" onclick="toggleHealthAnswer(this)">
+                <span class="icon">🤒</span>
+                <span class="question-text"
+                  >What common illness do you usually experience?</span
+                >
+                <span class="toggle-icon">➕</span>
+              </div>
+              <div class="card-body">
+                <textarea
+                  name="chronicIllness"
+                  placeholder="Enter details..."
+                  required
+                ></textarea>
+              </div>
+            </div>
+
+            <!-- Q4 -->
+            <div class="health-card">
+              <div class="card-header" onclick="toggleHealthAnswer(this)">
+                <span class="icon">📝</span>
+                <span class="question-text"
+                  >Any Information you will like us to know regarding your
+                  health?</span
+                >
+                <span class="toggle-icon">➕</span>
+              </div>
+              <div class="card-body">
+                <textarea
+                  name="chronicIllness"
+                  placeholder="Enter details..."
+                  required
+                ></textarea>
+              </div>
+            </div>
+          </div>
+
+          <button type="submit">Submit</button>
+          <button type="button" class="re-edit-btn" onclick="enableEdit(this)">
+            Re-Edit
+          </button>
+        </form>
+      </div>
+
+      <!-- REFERENCES   ------------------  -->
+      <div id="references" class="form-section">
+        <h3>References</h3>
+        <h4 class="subheading">Next of Kin</h4>
+
+        <form id="referencesForm" class="vertical-form compact-form">
+          <div class="form-group">
+            <label for="kinFullName">Full Name</label>
+            <input type="text" id="kinFullName" name="kinFullName" required />
+          </div>
+
+          <div class="form-group">
+            <label for="kinDOB">Date of Birth</label>
+            <input type="date" id="kinDOB" name="kinDOB" required />
+          </div>
+
+          <div class="form-group">
+            <label for="kinContact">Contact</label>
+            <input type="tel" id="kinContact" name="kinContact" required />
+          </div>
+
+          <div class="button-row">
+            <button type="submit">Submit</button>
+            <button
+              type="button"
+              class="re-edit-btn"
+              onclick="enableEdit(this)"
+            >
+              Re-Edit
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- CONTACT PERSONS  ------------------  -->
+      <div
+        id="contactPersons"
+        class="form-section contact-bg"
+        style="display: none"
+      >
+        <h3 class="subheading">Contact Persons</h3>
+
+        <form id="contactPersonsForm" class="two-column-form">
+          <!-- Contact Person 1 -->
+          <div class="contact-entry">
+            <h4>Contact Person 1</h4>
+
+            <div class="form-group">
+              <label for="contact1Name">Full Name</label>
+              <input
+                type="text"
+                id="contact1Name"
+                name="contact1Name"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="contact1Address">Address</label>
+              <input
+                type="text"
+                id="contact1Address"
+                name="contact1Address"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="contact1Phone">Phone Number</label>
+              <input
+                type="tel"
+                id="contact1Phone"
+                name="contact1Phone"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="contact1Relation">Relationship</label>
+              <input
+                type="text"
+                id="contact1Relation"
+                name="contact1Relation"
+                required
+              />
+            </div>
+          </div>
+
+          <!-- Contact Person 2 -->
+          <div class="contact-entry">
+            <h4>Contact Person 2</h4>
+
+            <div class="form-group">
+              <label for="contact2Name">Full Name</label>
+              <input
+                type="text"
+                id="contact2Name"
+                name="contact2Name"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="contact2Address">Address</label>
+              <input
+                type="text"
+                id="contact2Address"
+                name="contact2Address"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="contact2Phone">Phone Number</label>
+              <input
+                type="tel"
+                id="contact2Phone"
+                name="contact2Phone"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="contact2Relation">Relationship</label>
+              <input
+                type="text"
+                id="contact2Relation"
+                name="contact2Relation"
+                required
+              />
+            </div>
+          </div>
+
+          <!-- Buttons -->
+          <div class="button-row">
+            <button type="submit">Submit</button>
+            <button
+              type="button"
+              class="re-edit-btn"
+              onclick="enableEdit(this)"
+            >
+              Re-Edit
+            </button>
+          </div>
+        </form>
+      </div>
+    </main>
+    <div class="modal" id="successModal">
+      <h4>Form submitted successfully!</h4>
+      <button onclick="closeModal()">Close</button>
     </div>
+    <script>
+      const sections = document.querySelectorAll(".form-section");
+      const sidebarButtons = document.querySelectorAll(".sidebar nav button");
+      function showSection(id) {
+        sections.forEach((sec) => sec.classList.remove("active"));
+        document.getElementById(id).classList.add("active");
+        sidebarButtons.forEach((btn) => btn.classList.remove("active"));
+        [...sidebarButtons]
+          .find((btn) => btn.textContent.trim().toLowerCase().includes(id))
+          .classList.add("active");
+        if (window.innerWidth <= 768)
+          document.getElementById("sidebar").classList.remove("show");
+      }
+      function toggleSidebar() {
+        document.getElementById("sidebar").classList.toggle("show");
+      }
+      function logoutUser() {
+        alert("Logging out...");
+        setTimeout(() => {
+          window.location.href = "/logout";
+        }, 1000);
+      }
+      document
+        .getElementById("personalForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          this.querySelectorAll("input, select").forEach(
+            (el) => (el.disabled = true)
+          );
+          document.getElementById("progressBar").style.width = "10%";
+          document.getElementById("progressText").innerText = "10%";
+          document.getElementById("successModal").classList.add("active");
+        });
+      document
+        .getElementById("maritalForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          this.querySelectorAll("input, select").forEach(
+            (el) => (el.disabled = true)
+          );
+          document.getElementById("progressBar").style.width = "20%";
+          document.getElementById("progressText").innerText = "20%";
+          document.getElementById("successModal").classList.add("active");
+        });
+      function closeModal() {
+        document.getElementById("successModal").classList.remove("active");
+      }
+      function enableEdit(btn) {
+        const form = btn.closest("form");
+        form
+          .querySelectorAll("input, select")
+          .forEach((el) => (el.disabled = false));
+      }
 
+      function toggleSpouseSection(radio) {
+        const spouseSection = document.getElementById("spouseDetails");
 
+        // If 'Married' is selected, show the spouse section
+        if (radio.value === "Married") {
+          spouseSection.style.display = "block";
+        } else {
+          // If another status is selected, hide and clear the spouse section
+          spouseSection.style.display = "none";
+          const inputs = spouseSection.querySelectorAll("input");
+          inputs.forEach((input) => (input.value = ""));
+        }
+      }
 
-<!-- PARENTAL INFO ------------------  -->
- <div id="parent" class="form-section">
-  <h3>Parent Information</h3>
-  <form id="parentForm">
-   <div class="form-grid">
-  <div>
-    <input type="text" name="motherName" placeholder="Mother's Full Name" required>
-    <input type="text" name="motherOrigin" placeholder="Mother's Place of Origin" required>
-    <div class="status-options">
-      <label><input type="radio" name="motherStatus" value="Living" required> Living</label>
-      <label><input type="radio" name="motherStatus" value="Deceased"> Deceased</label>
+      document
+        .getElementById("parentForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          this.querySelectorAll("input").forEach((el) => (el.disabled = true));
+          document.getElementById("progressBar").style.width = "30%";
+          document.getElementById("progressText").innerText = "30%";
+          document.getElementById("successModal").classList.add("active");
+        });
+
+      function addEducation() {
+        const container = document.getElementById("educationContainer");
+        const group = document.createElement("div");
+        group.className = "school-entry form-grid";
+        group.innerHTML = `
+    <input type="text" name="institution[]" placeholder="Institution Name" required />
+    <div class="form-group">
+      <input type="text" name="yearFrom[]" placeholder="Year From" required />
+      <input type="text" name="yearTo[]" placeholder="Year To" required />
     </div>
-  </div>
+    <select name="certificate[]" required>
+      <option value="">Select Certificate</option>
+      <option>Degree</option>
+      <option>Diploma</option>
+      <option>HND</option>
+      <option>WASSCE</option>
+      <option>O Level</option>
+      <option>A Level</option>
+    </select>
+  `;
+        container.appendChild(group);
+      }
 
-  <div>
-    <input type="text" name="fatherName" placeholder="Father's Full Name" required>
-    <input type="text" name="fatherOrigin" placeholder="Father's Place of Origin" required>
-    <div class="status-options">
-      <label><input type="radio" name="fatherStatus" value="Living" required> Living</label>
-      <label><input type="radio" name="fatherStatus" value="Deceased"> Deceased</label>
+      document
+        .getElementById("educationForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          this.querySelectorAll("input, select").forEach(
+            (el) => (el.disabled = true)
+          );
+          document.getElementById("progressBar").style.width = "40%";
+          document.getElementById("progressText").innerText = "40%";
+          document.getElementById("successModal").classList.add("active");
+        });
+
+      // Populate year dropdowns (1980 to current year)
+      function populateYearOptions(select) {
+        const currentYear = new Date().getFullYear();
+        for (let year = 1980; year <= currentYear; year++) {
+          const option = document.createElement("option");
+          option.value = year;
+          option.text = year;
+          select.appendChild(option);
+        }
+      }
+
+      // Populate initial selects
+      document
+        .querySelectorAll(
+          '#education select[name="yearFrom[]"], #education select[name="yearTo[]"]'
+        )
+        .forEach(populateYearOptions);
+
+      function addEducation() {
+        const container = document.getElementById("educationContainer");
+        const group = document.createElement("div");
+        group.className = "school-entry";
+        group.innerHTML = `
+    <div class="form-grid">
+      <input type="text" name="institution[]" placeholder="Institution Name" required />
+
+      <div class="form-group">
+        <select name="yearFrom[]" required><option value="">Year From</option></select>
+        <select name="yearTo[]" required><option value="">Year To</option></select>
+      </div>
+
+      <select name="certificate[]" required>
+        <option value="">Select Certificate</option>
+        <option>Degree</option>
+        <option>Diploma</option>
+        <option>HND</option>
+        <option>WASSCE</option>
+        <option>O Level</option>
+        <option>A Level</option>
+      </select>
     </div>
-  </div>
-</div>
+    <button type="button" onclick="removeEducation(this)" style="margin-top: 0.5rem; background: #dc3545; color: white; border: none; padding: 0.4rem 1rem; border-radius: 4px; cursor: pointer;">
+      Remove
+    </button>
+  `;
 
-    <button type="submit">Submit</button>
-    <button type="button" class="re-edit-btn" onclick="enableEdit(this)">Re-Edit</button>
-  </form>
-</div>
+        // Append and populate year selects
+        container.appendChild(group);
+        const selects = group.querySelectorAll(
+          'select[name="yearFrom[]"], select[name="yearTo[]"]'
+        );
+        selects.forEach(populateYearOptions);
+      }
 
+      function removeEducation(button) {
+        const entry = button.closest(".school-entry");
+        entry.remove();
+      }
 
+      document
+        .getElementById("educationForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          this.querySelectorAll("input, select").forEach(
+            (el) => (el.disabled = true)
+          );
+          document.getElementById("progressBar").style.width = "40%";
+          document.getElementById("progressText").innerText = "40%";
+          document.getElementById("successModal").classList.add("active");
+        });
 
-  </main>
-  <div class="modal" id="successModal">
-    <h4>Form submitted successfully!</h4>
-    <button onclick="closeModal()">Close</button>
-  </div>
-  <script>
-    const sections = document.querySelectorAll('.form-section');
-    const sidebarButtons = document.querySelectorAll('.sidebar nav button');
-    function showSection(id) {
-      sections.forEach(sec => sec.classList.remove('active'));
-      document.getElementById(id).classList.add('active');
-      sidebarButtons.forEach(btn => btn.classList.remove('active'));
-      [...sidebarButtons].find(btn => btn.textContent.trim().toLowerCase().includes(id)).classList.add('active');
-      if (window.innerWidth <= 768) document.getElementById('sidebar').classList.remove('show');
-    }
-    function toggleSidebar() {
-      document.getElementById('sidebar').classList.toggle('show');
-    }
-    function logoutUser() {
-      alert('Logging out...');
-      setTimeout(() => {
-        window.location.href = '/logout';
-      }, 1000);
-    }
-    document.getElementById('personalForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      this.querySelectorAll('input, select').forEach(el => el.disabled = true);
-      document.getElementById('progressBar').style.width = '10%';
-      document.getElementById('progressText').innerText = '10%';
-      document.getElementById('successModal').classList.add('active');
-    });
-    document.getElementById('maritalForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      this.querySelectorAll('input, select').forEach(el => el.disabled = true);
-      document.getElementById('progressBar').style.width = '20%';
-      document.getElementById('progressText').innerText = '20%';
-      document.getElementById('successModal').classList.add('active');
-    });
-    function closeModal() {
-      document.getElementById('successModal').classList.remove('active');
-    }
-    function enableEdit(btn) {
-      const form = btn.closest('form');
-      form.querySelectorAll('input, select').forEach(el => el.disabled = false);
-    }
+      // Populate employment year selects (most recent to past)
+      function populateEmpYears(select) {
+        const currentYear = new Date().getFullYear();
+        for (let year = currentYear; year >= 1980; year--) {
+          const option = document.createElement("option");
+          option.value = year;
+          option.text = year;
+          select.appendChild(option);
+        }
+      }
 
-   function toggleSpouseSection(radio) {
-  const spouseSection = document.getElementById('spouseDetails');
+      // Initial year select population
+      document
+        .querySelectorAll(
+          '#employment select[name="empYearFrom[]"], #employment select[name="empYearTo[]"]'
+        )
+        .forEach(populateEmpYears);
 
-  // If 'Married' is selected, show the spouse section
-  if (radio.value === 'Married') {
-    spouseSection.style.display = 'block';
-  } else {
-    // If another status is selected, hide and clear the spouse section
-    spouseSection.style.display = 'none';
-    const inputs = spouseSection.querySelectorAll('input');
-    inputs.forEach(input => input.value = '');
-  }
-}
+      function addJob() {
+        const container = document.getElementById("employmentContainer");
+        const group = document.createElement("div");
+        group.className = "job-entry";
+        group.innerHTML = `
+    <div class="form-grid">
+      <input type="text" name="organization[]" placeholder="Organization Name" required />
 
-document.getElementById('parentForm').addEventListener('submit', function(e) {
-  e.preventDefault();
-  this.querySelectorAll('input').forEach(el => el.disabled = true);
-  document.getElementById('progressBar').style.width = '30%';
-  document.getElementById('progressText').innerText = '30%';
-  document.getElementById('successModal').classList.add('active');
-});
+      <div class="form-group">
+        <select name="empYearFrom[]" required><option value="">Year From</option></select>
+        <select name="empYearTo[]" required><option value="">Year To</option></select>
+      </div>
 
+      <input type="text" name="position[]" placeholder="Position Held" required />
+    </div>
+    <button type="button" onclick="removeJob(this)" style="margin-top: 0.5rem; background: #dc3545; color: white; border: none; padding: 0.4rem 1rem; border-radius: 4px; cursor: pointer;">
+      Remove
+    </button>
+  `;
+        container.appendChild(group);
+        const selects = group.querySelectorAll(
+          'select[name="empYearFrom[]"], select[name="empYearTo[]"]'
+        );
+        selects.forEach(populateEmpYears);
+      }
 
-  </script>
-</body>
+      function removeJob(button) {
+        const entry = button.closest(".job-entry");
+        entry.remove();
+      }
+
+      document
+        .getElementById("employmentForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const jobEntries = document.querySelectorAll(
+            "#employmentContainer .job-entry"
+          );
+          let valid = true;
+
+          if (jobEntries.length === 0) {
+            alert("Please add at least one job before submitting.");
+            return;
+          }
+
+          jobEntries.forEach((entry) => {
+            const inputs = entry.querySelectorAll("input, select");
+            inputs.forEach((input) => {
+              if (!input.value.trim()) {
+                valid = false;
+              }
+            });
+          });
+
+          if (!valid) {
+            alert("Please fill in all job fields before submitting.");
+            return;
+          }
+
+          this.querySelectorAll("input, select").forEach(
+            (el) => (el.disabled = true)
+          );
+          document.getElementById("progressBar").style.width = "60%";
+          document.getElementById("progressText").innerText = "60%";
+          document.getElementById("successModal").classList.add("active");
+        });
+
+      function toggleHealthAnswer(header) {
+        const card = header.parentElement;
+        const body = card.querySelector(".card-body");
+        const icon = header.querySelector(".toggle-icon");
+
+        // Expand or collapse
+        if (card.classList.contains("active")) {
+          body.style.maxHeight = null;
+          icon.textContent = "➕";
+          card.classList.remove("active");
+        } else {
+          body.style.maxHeight = body.scrollHeight + "px";
+          icon.textContent = "➖";
+          card.classList.add("active");
+        }
+      }
+
+      document
+        .getElementById("healthForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          let valid = true;
+          this.querySelectorAll("textarea").forEach((area) => {
+            if (!area.value.trim()) valid = false;
+          });
+
+          if (!valid) {
+            alert("Please answer all health questions before submitting.");
+            return;
+          }
+
+          this.querySelectorAll("textarea").forEach(
+            (el) => (el.disabled = true)
+          );
+          document.getElementById("progressBar").style.width = "80%";
+          document.getElementById("progressText").innerText = "80%";
+          document.getElementById("successModal").classList.add("active");
+        });
+
+      document
+        .getElementById("referencesForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const fields = ["kinFullName", "kinDOB", "kinContact"];
+          let valid = fields.every((id) =>
+            document.getElementById(id).value.trim()
+          );
+
+          if (!valid) {
+            alert("Please fill out all Next of Kin fields.");
+            return;
+          }
+
+          fields.forEach((id) => (document.getElementById(id).disabled = true));
+          document.getElementById("progressBar").style.width = "90%";
+          document.getElementById("progressText").innerText = "90%";
+          document.getElementById("successModal").classList.add("active");
+        });
+    </script>
+  </body>
 </html>
