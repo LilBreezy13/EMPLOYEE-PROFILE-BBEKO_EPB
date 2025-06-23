@@ -267,6 +267,41 @@ select::placeholder {
   margin-bottom: 1rem;
 }
 
+
+.status-options {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+.status-options label {
+  display: flex;
+  align-items: center;
+  font-size: 0.95rem;
+}
+
+/* Stack vertically on mobile */
+@media (max-width: 768px) {
+  .status-options {
+    flex-direction: column;
+  }
+}
+
+
+input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #007bff;
+  cursor: pointer;
+}
+
+form input,
+form select {
+  padding: 0.6rem;
+  /* font-size: 0.95rem; */
+  /* border-radius: 5px; */
+  /* border: 1px */
+}
+
   </style>
 </head>
 <body>
@@ -274,11 +309,12 @@ select::placeholder {
     <i class="fas fa-bars"></i>
   </div>
   <aside class="sidebar" id="sidebar">
-    <h2>MiPeople</h2>
+    <h2>Employee Dashboard</h2>
     <nav>
       <button onclick="showSection('dashboard')" class="active">Dashboard</button>
       <button onclick="showSection('personal')">Personal Details</button>
       <button onclick="showSection('marital')">Marital Status</button>
+      <button onclick="showSection('parent')">Parent Information</button>
     </nav>
     <div class="logout" onclick="logoutUser()">
       <i class="fas fa-sign-out-alt"></i> Logout
@@ -352,7 +388,37 @@ select::placeholder {
       </form>
     </div>
 
+
+
 <!-- PARENTAL INFO ------------------  -->
+ <div id="parent" class="form-section">
+  <h3>Parent Information</h3>
+  <form id="parentForm">
+   <div class="form-grid">
+  <div>
+    <input type="text" name="motherName" placeholder="Mother's Full Name" required>
+    <input type="text" name="motherOrigin" placeholder="Mother's Place of Origin" required>
+    <div class="status-options">
+      <label><input type="radio" name="motherStatus" value="Living" required> Living</label>
+      <label><input type="radio" name="motherStatus" value="Deceased"> Deceased</label>
+    </div>
+  </div>
+
+  <div>
+    <input type="text" name="fatherName" placeholder="Father's Full Name" required>
+    <input type="text" name="fatherOrigin" placeholder="Father's Place of Origin" required>
+    <div class="status-options">
+      <label><input type="radio" name="fatherStatus" value="Living" required> Living</label>
+      <label><input type="radio" name="fatherStatus" value="Deceased"> Deceased</label>
+    </div>
+  </div>
+</div>
+
+    <button type="submit">Submit</button>
+    <button type="button" class="re-edit-btn" onclick="enableEdit(this)">Re-Edit</button>
+  </form>
+</div>
+
 
 
   </main>
@@ -414,6 +480,14 @@ select::placeholder {
     inputs.forEach(input => input.value = '');
   }
 }
+
+document.getElementById('parentForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  this.querySelectorAll('input').forEach(el => el.disabled = true);
+  document.getElementById('progressBar').style.width = '30%';
+  document.getElementById('progressText').innerText = '30%';
+  document.getElementById('successModal').classList.add('active');
+});
 
 
   </script>
