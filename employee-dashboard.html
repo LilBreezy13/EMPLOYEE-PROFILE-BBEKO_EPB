@@ -1,21 +1,493 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Employee Dashboard</title>
-  <link rel="stylesheet" href="styles.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Staff Profile Portal</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Global Styles */
+body {
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  background: #f4f6fb;
+  color: #333;
+}
+
+.container {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 250px;
+  background-color: #1f2937;
+  color: white;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.sidebar h2 {
+  margin-top: 0;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar .nav-link {
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin: 5px 0;
+  background: #374151;
+  transition: background 0.3s;
+}
+
+.sidebar .nav-link:hover,
+.sidebar .nav-link.active {
+  background: #2563eb;
+}
+
+.logout {
+  margin-top: 20px;
+  padding: 10px;
+  background: crimson;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+/* Main Content */
+main {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.content-section {
+  display: none;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.content-section.active {
+  display: block;
+}
+
+/* Form Styles */
+.form-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 600px;
+}
+
+input, select, button {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+button[type=submit],
+button.re-edit {
+  background: #2563eb;
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+button[type=submit]:hover,
+button.re-edit:hover {
+  background: #1d4ed8;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* Progress Bar */
+.progress-bar {
+  background: #e5e7eb;
+  border-radius: 10px;
+  overflow: hidden;
+  height: 20px;
+  margin-bottom: 20px;
+}
+
+#progress-fill {
+  height: 100%;
+  background: #2563eb;
+  width: 0%;
+  transition: width 0.4s ease;
+}
+
+/* Welcome Animation */
+#welcome {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: fadeOut 3s forwards 2s;
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Upload Cards */
+.upload-card {
+  background: #e0e7ff;
+  padding: 10px;
+  border: 2px dashed #60a5fa;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+  .sidebar {
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .sidebar ul {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .sidebar .nav-link {
+    flex: 1 1 45%;
+    margin: 5px;
+    text-align: center;
+  }
+}
+
+  </style>
 </head>
 <body>
-  <h2>Employee Profile Form</h2>
-  <form id="employeeForm">
-    <input type="text" placeholder="Full Name" required /><br/>
-    <input type="number" placeholder="Phone Number" required /><br/>
-    <select required>
-      <option value="">Select Department</option>
-      <option value="MIS">MIS</option>
-      <option value="Marketing">Marketing</option>
-    </select><br/>
-    <input type="file" required /><br/>
-    <button type="submit">Submit</button>
-  </form>
+  <!-- Welcome Animation -->
+  <div id="welcome" class="welcome-animation">
+    <h1>Welcome, Nicholas Hunsu</h1>
+  </div>
+
+  <!-- Main Container -->
+  <div class="container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <h2>Employee Profile</h2>
+      <nav>
+        <ul>
+          <li class="nav-link active" data-section="dashboard">Dashboard</li>
+          <li class="nav-link" data-section="personal">Personal Details</li>
+          <li class="nav-link" data-section="marital">Marital Status</li>
+          <li class="nav-link" data-section="parents">Parents Information</li>
+          <li class="nav-link" data-section="education">Educational Background</li>
+          <li class="nav-link" data-section="employment">Employment Details</li>
+          <li class="nav-link" data-section="health">Health Status</li>
+          <li class="nav-link" data-section="references">References</li>
+          <li class="nav-link" data-section="contacts">Contact Persons</li>
+          <li class="nav-link" data-section="documents">Documents Uploads</li>
+        </ul>
+      </nav>
+      <button id="logout" class="logout">Logout</button>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main id="main-content">
+      <!-- Dashboard Section -->
+      <section id="dashboard" class="content-section active">
+        <h2>Dashboard</h2>
+        <div class="progress-bar">
+          <div id="progress-fill" style="width: 0%;"></div>
+        </div>
+        <div id="form-overview">
+          <!-- Summary will be dynamically injected -->
+        </div>
+      </section>
+
+      <!-- Personal Details Section -->
+      <section id="personal" class="content-section">
+        <h2>Personal Details</h2>
+        <form class="form-section" data-section="personal">
+          <input type="text" placeholder="Full Name" required>
+          <input type="text" placeholder="Surname" required>
+          <input type="text" placeholder="Middle Name">
+          <input type="text" placeholder="First Name" required>
+          <input type="date" placeholder="DOB" required>
+          <input type="text" placeholder="Place of Birth" required>
+          <input type="text" placeholder="Hometown">
+          <input type="text" placeholder="Current Residence">
+          <select required>
+            <option value="">Select Religion</option>
+            <option>Christianity</option>
+            <option>Islam</option>
+            <option>Traditional</option>
+            <option>Other</option>
+          </select>
+          <input type="tel" pattern="\d+" placeholder="Contact" required>
+          <button type="submit">Submit</button>
+          <button type="button" class="re-edit" style="display:none">Re-edit</button>
+        </form>
+      </section>
+
+      <!-- Marital Status Section -->
+      <section id="marital" class="content-section">
+        <h2>Marital Status</h2>
+        <form class="form-section" data-section="marital">
+          <label><input type="radio" name="status" value="Single"> Single</label>
+          <label><input type="radio" name="status" value="Married"> Married</label>
+          <label><input type="radio" name="status" value="Separated"> Separated</label>
+          <label><input type="radio" name="status" value="Divorced"> Divorced</label>
+          <div id="married-details" style="display: none;">
+            <input type="text" placeholder="Spouse Name">
+            <input type="date" placeholder="Spouse DOB">
+            <input type="tel" pattern="\d+" placeholder="Spouse Contact">
+            <input type="number" placeholder="Number of Children">
+            <table>
+              <thead><tr><th>Name</th><th>DOB</th></tr></thead>
+              <tbody>
+                <tr><td><input type="text"></td><td><input type="date"></td></tr>
+                <tr><td><input type="text"></td><td><input type="date"></td></tr>
+                <tr><td><input type="text"></td><td><input type="date"></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <button type="submit">Submit</button>
+          <button type="button" class="re-edit" style="display:none">Re-edit</button>
+        </form>
+      </section>
+
+      <!-- Parents Information Section -->
+      <section id="parents" class="content-section">
+        <h2>Parents Information</h2>
+        <form class="form-section" data-section="parents">
+          <div class="parent-info">
+            <h3>Father</h3>
+            <input type="text" placeholder="Father's Name">
+            <label><input type="checkbox"> Living</label>
+            <label><input type="checkbox"> Deceased</label>
+            <input type="tel" pattern="\d+" placeholder="Father's Contact">
+          </div>
+          <div class="parent-info">
+            <h3>Mother</h3>
+            <input type="text" placeholder="Mother's Name">
+            <label><input type="checkbox"> Living</label>
+            <label><input type="checkbox"> Deceased</label>
+            <input type="tel" pattern="\d+" placeholder="Mother's Contact">
+          </div>
+          <button type="submit">Submit</button>
+          <button type="button" class="re-edit" style="display:none">Re-edit</button>
+        </form>
+      </section>
+
+      <!-- Educational Background Section -->
+      <section id="education" class="content-section">
+        <h2>Educational Background</h2>
+        <div id="school-list"></div>
+        <button id="add-school">Add School</button>
+        <form class="form-section hidden" id="school-form">
+          <input type="text" placeholder="Institution Name">
+          <input type="text" placeholder="Year (From - To)">
+          <select>
+            <option>Degree</option>
+            <option>Diploma</option>
+            <option>HND</option>
+            <option>WASSCE</option>
+            <option>O Level</option>
+            <option>A Level</option>
+          </select>
+          <button type="submit">Submit</button>
+          <button type="button" class="re-edit" style="display:none">Re-edit</button>
+        </form>
+      </section>
+
+      <!-- Employment Details Section -->
+      <section id="employment" class="content-section">
+        <h2>Employment Details</h2>
+        <div id="job-list"></div>
+        <button id="add-job">Add Employment</button>
+        <form class="form-section hidden" id="job-form">
+          <input type="text" placeholder="Organization Name">
+          <input type="text" placeholder="Year (From - To)">
+          <input type="text" placeholder="Position Held">
+          <button type="submit">Submit</button>
+          <button type="button" class="re-edit" style="display:none">Re-edit</button>
+        </form>
+      </section>
+
+      <!-- Health Status Section -->
+      <section id="health" class="content-section">
+        <h2>Health Status</h2>
+        <form class="form-section" data-section="health">
+          <input type="text" placeholder="Any allergies?">
+          <input type="text" placeholder="Any chronic illnesses?">
+          <input type="text" placeholder="Common illnesses experienced?">
+          <input type="text" placeholder="Any other health information?">
+          <button type="submit">Submit</button>
+          <button type="button" class="re-edit" style="display:none">Re-edit</button>
+        </form>
+      </section>
+
+      <!-- References Section -->
+      <section id="references" class="content-section">
+        <h2>References</h2>
+        <form class="form-section" data-section="references">
+          <input type="text" placeholder="Next of Kin Full Name">
+          <input type="date" placeholder="DOB">
+          <input type="tel" pattern="\d+" placeholder="Contact">
+          <button type="submit">Submit</button>
+          <button type="button" class="re-edit" style="display:none">Re-edit</button>
+        </form>
+      </section>
+
+      <!-- Contact Persons Section -->
+      <section id="contacts" class="content-section">
+        <h2>Contact Persons</h2>
+        <form class="form-section" data-section="contacts">
+          <input type="text" placeholder="Full Name">
+          <input type="text" placeholder="Relationship">
+          <input type="tel" pattern="\d+" placeholder="Contact">
+          <input type="text" placeholder="Full Name">
+          <input type="text" placeholder="Relationship">
+          <input type="tel" pattern="\d+" placeholder="Contact">
+          <button type="submit">Submit</button>
+          <button type="button" class="re-edit" style="display:none">Re-edit</button>
+        </form>
+      </section>
+
+      <!-- Document Upload Section -->
+      <section id="documents" class="content-section">
+        <h2>Documents Upload</h2>
+        <p>NB: PLEASE ATTACH PHOTOCOPIES OF ALL YOUR CERTIFICATES LISTED, TWO PASSPORT PICTURES AND CV. INCLUDE ANY MEDICAL RELATED ATTACHMENT.</p>
+        <form class="form-section" data-section="documents">
+          <div class="upload-card">Upload CV <input type="file" accept=".doc,.docx,.pdf"></div>
+          <div class="upload-card">Upload 2 Passport Photos <input type="file" accept=".jpg,.png" multiple></div>
+          <div class="upload-card">Medical Attachments <input type="file" accept=".doc,.docx,.pdf,.jpg,.png"></div>
+          <div class="upload-card">Academic Certificates <input type="file" accept=".doc,.docx,.pdf"></div>
+          <button id="add-more-certificates">Add More Certificates</button>
+          <button type="submit">Submit</button>
+          <button type="button" class="re-edit" style="display:none">Re-edit</button>
+        </form>
+      </section>
+    </main>
+  </div>
+
+
+  <script>
+// Welcome animation
+window.addEventListener('DOMContentLoaded', () => {
+  setTimeout(() => {
+    document.getElementById('welcome').style.display = 'none';
+  }, 3000);
+});
+
+// Sidebar navigation
+const navLinks = document.querySelectorAll('.nav-link');
+const sections = document.querySelectorAll('.content-section');
+
+navLinks.forEach(link => {
+  link.addEventListener('click', () => {
+    navLinks.forEach(l => l.classList.remove('active'));
+    link.classList.add('active');
+    const sectionId = link.dataset.section;
+    sections.forEach(section => {
+      section.classList.remove('active');
+      if (section.id === sectionId) section.classList.add('active');
+    });
+  });
+});
+
+// Submit form and lock
+document.querySelectorAll('.form-section').forEach(form => {
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const inputs = form.querySelectorAll('input, select, button:not(.re-edit)');
+    inputs.forEach(input => input.disabled = true);
+    form.querySelector('.re-edit').style.display = 'inline-block';
+    updateProgress();
+  });
+
+  form.querySelector('.re-edit')?.addEventListener('click', () => {
+    const inputs = form.querySelectorAll('input, select, button');
+    inputs.forEach(input => input.disabled = false);
+    form.querySelector('.re-edit').style.display = 'none';
+  });
+});
+
+// Marital status toggle
+const maritalRadios = document.querySelectorAll('input[name=\"status\"]');
+const marriedDetails = document.getElementById('married-details');
+
+maritalRadios.forEach(radio => {
+  radio.addEventListener('change', () => {
+    if (radio.value === 'Married') {
+      marriedDetails.style.display = 'block';
+    } else {
+      marriedDetails.style.display = 'none';
+    }
+  });
+});
+
+// Logout animation
+document.getElementById('logout').addEventListener('click', () => {
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:white;z-index:9999;display:flex;align-items:center;justify-content:center;font-size:2em;';
+  overlay.innerText = 'Logging out...';
+  document.body.appendChild(overlay);
+  setTimeout(() => {
+    window.location.reload(); // Simulated logout
+  }, 2000);
+});
+
+// Dynamic add for schools and jobs
+document.getElementById('add-school').addEventListener('click', () => {
+  document.getElementById('school-form').classList.remove('hidden');
+});
+
+document.getElementById('add-job').addEventListener('click', () => {
+  document.getElementById('job-form').classList.remove('hidden');
+});
+
+// Add certificate upload card
+document.getElementById('add-more-certificates')?.addEventListener('click', (e) => {
+  e.preventDefault();
+  const container = e.target.closest('form');
+  const newCard = document.createElement('div');
+  newCard.className = 'upload-card';
+  newCard.innerHTML = 'Additional Certificate <input type=\"file\" accept=\".doc,.docx,.pdf\">';
+  container.insertBefore(newCard, e.target);
+});
+
+// Progress bar calculation
+function updateProgress() {
+  const totalSections = document.querySelectorAll('.form-section').length;
+  const completed = Array.from(document.querySelectorAll('.form-section')).filter(f => f.querySelector('.re-edit')?.style.display === 'inline-block').length;
+  const percent = Math.floor((completed / totalSections) * 100);
+  document.getElementById('progress-fill').style.width = `${percent}%`;
+}
+
+  </script>
+
+  <!-- <script src="script.js"></script> -->
 </body>
 </html>
