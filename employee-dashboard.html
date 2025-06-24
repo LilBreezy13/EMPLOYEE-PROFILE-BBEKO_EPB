@@ -81,11 +81,14 @@
         border-radius: 5px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
       }
-      .content {
-        flex: 1;
-        padding: 2rem;
-        overflow-y: auto;
-      }
+
+     .content {
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
+  scroll-padding-bottom: 200px; /* Ensure space below inputs */
+}
+
       .form-section {
         display: none;
         animation: fadeIn 0.4s ease-in-out forwards;
@@ -527,6 +530,264 @@
           align-items: center;
         }
       }
+.contact-block {
+  background: #f2f9ff;
+  padding: 1.2rem;
+  margin-bottom: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.contact-block h4 {
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+  color: #080808;
+}
+
+#contactPersons input {
+  padding: 0.6rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 0.95rem;
+  width: 100%;
+}
+
+.btn-row {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.btn-row button {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-row button[type="submit"] {
+  background: #007bff;
+  color: white;
+}
+
+.btn-row .re-edit-btn {
+  background: #ffc107;
+  color: black;
+}
+
+
+.parent-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.parent-entry {
+  background: #f9fcff;
+  padding: 1.2rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+@media (max-width: 768px) {
+  .parent-info-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+.references-box {
+  background: #f9fcff;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 600px;
+}
+
+.references-box input {
+  padding: 0.6rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 0.95rem;
+  width: 100%;
+}
+
+
+.upload-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.upload-card {
+  background: #f3f9ff;
+  padding: 1.2rem;
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.upload-card h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.upload-card input[type="file"] {
+  background: #fff;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.btn-small-container {
+  grid-column: span 2;
+}
+
+.btn-small {
+  background: #007bff;
+  color: white;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .upload-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+.upload-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.upload-card {
+  background: #f3f9ff;
+  padding: 1.2rem;
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.upload-card h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.upload-card input[type="file"] {
+  background: #fff;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.preview-thumbs {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+}
+.preview-thumbs img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.file-name-preview {
+  font-size: 0.85rem;
+  color: #333;
+  margin-top: 0.5rem;
+}
+
+.btn-small {
+  background: #007bff;
+  color: white;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  width: fit-content;
+}
+
+@media (max-width: 768px) {
+  .upload-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+.passport-preview-container {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.passport-preview-container .preview-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 120px;
+}
+
+.passport-preview-container img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  border: 2px solid #007bff;
+}
+
+.passport-preview-container span {
+  margin-top: 0.4rem;
+  font-size: 0.8rem;
+  text-align: center;
+  color: #333;
+}
+
+
+@media (max-width: 768px) {
+  .subsection  {
+    text-align: center;
+  }
+}
+
+html, body {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+form {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+
     </style>
   </head>
   <body>
@@ -534,7 +795,7 @@
       <i class="fas fa-bars"></i>
     </div>
     <aside class="sidebar" id="sidebar">
-      <h2>Employee Dashboard</h2>
+      <h2  >Employee Dashboard</h2>
       <nav>
         <button onclick="showSection('dashboard')" class="active">
           Dashboard
@@ -548,8 +809,11 @@
         <button onclick="showSection('employment')">Employment Details</button>
         <button onclick="showSection('health')">Health Status</button>
         <button onclick="showSection('references')">References</button>
-
         <button onclick="showSection('contactPersons')">Contact Persons</button>
+        <button onclick="showSection('documents')">Upload Documents</button>
+
+
+
       </nav>
       <div class="logout" onclick="logoutUser()">
         <i class="fas fa-sign-out-alt"></i> Logout
@@ -558,7 +822,7 @@
     <main class="content">
       <div id="dashboard" class="form-section active">
         <div class="progress-container">
-          <h3>Form Completion</h3>
+          <h3 class="subsection">Form Completion</h3>
           <div class="progress-bar" id="progressBar"></div>
           <div class="progress-text" id="progressText">0%</div>
         </div>
@@ -566,7 +830,7 @@
       </div>
 
       <div id="personal" class="form-section">
-        <h3>Personal Details</h3>
+        <h3 class="subsection" >Personal Details</h3>
         <form id="personalForm">
           <div class="form-grid">
             <input type="text" name="surname" placeholder="Surname" required />
@@ -624,7 +888,7 @@
       </div>
 
       <div id="marital" class="form-section">
-        <h3>Marital Status</h3>
+        <h3 class="subsection">Marital Status</h3>
         <form id="maritalForm">
           <div class="form-group marital-options">
             <label
@@ -702,82 +966,56 @@
         </form>
       </div>
 
-      <!-- PARENTAL INFO ------------------  -->
-      <div id="parent" class="form-section">
-        <h3>Parent Information</h3>
-        <form id="parentForm">
-          <div class="form-grid">
-            <div>
-              <input
-                type="text"
-                name="motherName"
-                placeholder="Mother's Full Name"
-                required
-              />
-              <input
-                type="text"
-                name="motherOrigin"
-                placeholder="Mother's Place of Origin"
-                required
-              />
-              <div class="status-options">
-                <label
-                  ><input
-                    type="radio"
-                    name="motherStatus"
-                    value="Living"
-                    required
-                  />
-                  Living</label
-                >
-                <label
-                  ><input type="radio" name="motherStatus" value="Deceased" />
-                  Deceased</label
-                >
-              </div>
-            </div>
-
-            <div>
-              <input
-                type="text"
-                name="fatherName"
-                placeholder="Father's Full Name"
-                required
-              />
-              <input
-                type="text"
-                name="fatherOrigin"
-                placeholder="Father's Place of Origin"
-                required
-              />
-              <div class="status-options">
-                <label
-                  ><input
-                    type="radio"
-                    name="fatherStatus"
-                    value="Living"
-                    required
-                  />
-                  Living</label
-                >
-                <label
-                  ><input type="radio" name="fatherStatus" value="Deceased" />
-                  Deceased</label
-                >
-              </div>
-            </div>
-          </div>
-
-          <button type="submit">Submit</button>
-          <button type="button" class="re-edit-btn" onclick="enableEdit(this)">
-            Re-Edit
-          </button>
-        </form>
+      <!-- PARENTAL INFO ------------------  --><div id="parent" class="form-section">
+  <h3 class="subsection" >Parent Information</h3>
+  <form id="parentForm">
+    <div class="form-grid parent-info-grid">
+      <!-- Mother Info -->
+      <div class="parent-entry">
+        <h4>Mother's Information</h4>
+        <input type="text" name="motherName" placeholder="Full Name" required />
+          <input
+              type="tel"
+              name="contact"
+              placeholder="Contact Number"
+              pattern="[0-9]+"
+              required
+            />
+        <div class="status-options">
+          <label><input type="radio" name="motherStatus" value="Living" required /> Living</label>
+          <label><input type="radio" name="motherStatus" value="Deceased" /> Deceased</label>
+        </div>
       </div>
+
+      <!-- Father Info -->
+      <div class="parent-entry">
+        <h4>Father's Information</h4>
+        <input type="text" name="fatherName" placeholder="Full Name" required />
+           <input
+              type="tel"
+              name="contact"
+              placeholder="Contact Number"
+              pattern="[0-9]+"
+              required
+            />
+        <div class="status-options">
+          <label><input type="radio" name="fatherStatus" value="Living" required /> Living</label>
+          <label><input type="radio" name="fatherStatus" value="Deceased" /> Deceased</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button type="submit">Submit</button>
+      <button type="button" class="re-edit-btn" onclick="enableEdit(this)">Re-Edit</button>
+    </div>
+  </form>
+</div>
+
 
       <!-- EDUCATIONAL INFO ------------------  -->
       <div id="education" class="form-section">
-        <h3>Educational Background</h3>
+        <h3 class="subsection" >Educational Background</h3>
         <form id="educationForm">
           <div id="educationContainer">
             <!-- Initial school entry -->
@@ -838,7 +1076,7 @@
 
       <!-- EMPLOYMENT INFO ------------------  -->
       <div id="employment" class="form-section">
-        <h3>Employment Details</h3>
+        <h3 class="subsection">Employment Details</h3>
         <form id="employmentForm">
           <div id="employmentContainer">
             <div class="job-entry">
@@ -896,7 +1134,7 @@
       <!-- HEALTH STATUS  ------------------  -->
 
       <div id="health" class="form-section">
-        <h3>Health Status</h3>
+        <h3 class="subsection" >Health Status</h3>
         <form id="healthForm">
           <div class="health-grid">
             <!-- Q1 -->
@@ -980,152 +1218,154 @@
         </form>
       </div>
 
-      <!-- REFERENCES   ------------------  -->
-      <div id="references" class="form-section">
-        <h3>References</h3>
-        <h4 class="subheading">Next of Kin</h4>
+      <!-- REFERENCES   ------------------  --><div id="references" class="form-section">
+  <h3 class="subsection" >References / Next of Kin</h3>
 
-        <form id="referencesForm" class="vertical-form compact-form">
-          <div class="form-group">
-            <label for="kinFullName">Full Name</label>
-            <input type="text" id="kinFullName" name="kinFullName" required />
-          </div>
+  <form id="referencesForm" class="references-box">
+    <input
+      type="text"
+      name="kinFullName"
+      placeholder="Full Name"
+      required
+    />
+    <input
+      type="date"
+      name="kinDOB"
+      placeholder="Date of Birth"
+      required
+    />
+    <input
+      type="tel"
+      name="kinContact"
+      placeholder="Contact Number"
+      pattern="[0-9]+"
+      inputmode="numeric"
+      required
+    />
 
-          <div class="form-group">
-            <label for="kinDOB">Date of Birth</label>
-            <input type="date" id="kinDOB" name="kinDOB" required />
-          </div>
-
-          <div class="form-group">
-            <label for="kinContact">Contact</label>
-            <input type="tel" id="kinContact" name="kinContact" required />
-          </div>
-
-          <div class="button-row">
-            <button type="submit">Submit</button>
-            <button
-              type="button"
-              class="re-edit-btn"
-              onclick="enableEdit(this)"
-            >
-              Re-Edit
-            </button>
-          </div>
-        </form>
-      </div>
-
-      <!-- CONTACT PERSONS  ------------------  -->
-      <div
-        id="contactPersons"
-        class="form-section contact-bg"
-        style="display: none"
+    <div class="btn-row">
+      <button type="submit">Submit</button>
+      <button
+        type="button"
+        class="re-edit-btn"
+        onclick="enableEdit(this)"
       >
-        <h3 class="subheading">Contact Persons</h3>
+        Re-Edit
+      </button>
+    </div>
+  </form>
+</div>
 
-        <form id="contactPersonsForm" class="two-column-form">
-          <!-- Contact Person 1 -->
-          <div class="contact-entry">
-            <h4>Contact Person 1</h4>
+      <!-- CONTACT PERSONS  ------------------  --><div id="contactPersons" class="form-section">
+  <h3 class="subsection" >Contact Persons</h3>
 
-            <div class="form-group">
-              <label for="contact1Name">Full Name</label>
-              <input
-                type="text"
-                id="contact1Name"
-                name="contact1Name"
-                required
-              />
-            </div>
+  <form id="contactPersonsForm">
+    <!-- Contact Person 1 -->
+    <div class="contact-block">
+      <h4>Contact Person 1</h4>
+      <input type="text" name="contact1Name" placeholder="Full Name" required />
+      <input type="text" name="contact1Address" placeholder="Address" required />
+      <input
+        type="tel"
+        name="contact1Phone"
+        placeholder="Phone Number"
+        pattern="[0-9]+"
+        inputmode="numeric"
+        required
+      />
+      <input type="text" name="contact1Relation" placeholder="Relationship" required />
+    </div>
 
-            <div class="form-group">
-              <label for="contact1Address">Address</label>
-              <input
-                type="text"
-                id="contact1Address"
-                name="contact1Address"
-                required
-              />
-            </div>
+    <!-- Contact Person 2 -->
+    <div class="contact-block">
+      <h4>Contact Person 2</h4>
+      <input type="text" name="contact2Name" placeholder="Full Name" required />
+      <input type="text" name="contact2Address" placeholder="Address" required />
+      <input
+        type="tel"
+        name="contact2Phone"
+        placeholder="Phone Number"
+        pattern="[0-9]+"
+        inputmode="numeric"
+        required
+      />
+      <input type="text" name="contact2Relation" placeholder="Relationship" required />
+    </div>
 
-            <div class="form-group">
-              <label for="contact1Phone">Phone Number</label>
-              <input
-                type="tel"
-                id="contact1Phone"
-                name="contact1Phone"
-                required
-              />
-            </div>
+    <!-- Buttons -->
+    <div class="btn-row">
+      <button type="submit">Submit</button>
+      <button type="button" class="re-edit-btn" onclick="enableEdit(this)">Re-Edit</button>
+    </div>
+  </form>
+</div>
 
-            <div class="form-group">
-              <label for="contact1Relation">Relationship</label>
-              <input
-                type="text"
-                id="contact1Relation"
-                name="contact1Relation"
-                required
-              />
-            </div>
-          </div>
 
-          <!-- Contact Person 2 -->
-          <div class="contact-entry">
-            <h4>Contact Person 2</h4>
-
-            <div class="form-group">
-              <label for="contact2Name">Full Name</label>
-              <input
-                type="text"
-                id="contact2Name"
-                name="contact2Name"
-                required
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="contact2Address">Address</label>
-              <input
-                type="text"
-                id="contact2Address"
-                name="contact2Address"
-                required
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="contact2Phone">Phone Number</label>
-              <input
-                type="tel"
-                id="contact2Phone"
-                name="contact2Phone"
-                required
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="contact2Relation">Relationship</label>
-              <input
-                type="text"
-                id="contact2Relation"
-                name="contact2Relation"
-                required
-              />
-            </div>
-          </div>
-
-          <!-- Buttons -->
-          <div class="button-row">
-            <button type="submit">Submit</button>
-            <button
-              type="button"
-              class="re-edit-btn"
-              onclick="enableEdit(this)"
-            >
-              Re-Edit
-            </button>
-          </div>
         </form>
       </div>
+
+
+      <!-- UPLOAD DOCUMENTS------------------  --><div id="documents" class="form-section">
+  <h3 class="subsection" >Documents Uploads</h3>
+
+  <p style="color: red; font-weight: 600; margin-bottom: 1rem;">
+    NB: PLEASE ATTACH PHOTOCOPY OF ALL YOUR CERTIFICATES LISTED, TWO PASSPORT PICTURES AND CV. INCLUDE ANY MEDICAL RELATED ATTACHMENT.
+  </p>
+
+  <form id="documentsForm">
+    <div class="upload-grid">
+      <!-- Passport Photos -->
+      <div class="upload-card">
+        <h4>Passport Photo</h4>
+        <input
+          type="file"
+          name="passportPhotos"
+          accept=".jpg,.jpeg,.png"
+          multiple
+          required
+          onchange="previewPassportPhotos(this)"
+        />
+        <div id="passportPreview" class="preview-thumbs"></div>
+      </div>
+
+      <!-- CV Upload -->
+      <div class="upload-card">
+        <h4>Curriculum Vitae (CV)</h4>
+        <input
+          type="file"
+          name="cv"
+          accept=".pdf,.doc,.docx"
+          required
+          onchange="previewFileName(this, 'cvPreview')"
+        />
+        <div id="cvPreview" class="file-name-preview"></div>
+      </div>
+
+      <!-- Academic Certificates -->
+      <div class="upload-card">
+        <h4>Academic Certificates </h4>
+        <input type="file" name="certificate[]" accept=".pdf,.doc,.docx" required onchange="previewFileName(this, 'certPreview')" />
+        <input type="file" name="certificate[]" accept=".pdf,.doc,.docx" required onchange="previewFileName(this, 'certPreview')" />
+        <div id="certPreview" class="file-name-preview"></div>
+        <button type="button" class="btn-small" onclick="addCertificateUpload()">+ Upload More Certificates</button>
+      </div>
+
+      <!-- Medical Attachment -->
+      <div class="upload-card">
+        <h4>Medical Attachment (Optional)</h4>
+        <input type="file" name="medical" accept=".pdf,.doc,.docx" onchange="previewFileName(this, 'medicalPreview')" />
+        <div id="medicalPreview" class="file-name-preview"></div>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button type="submit">Submit</button>
+      <button type="button" class="re-edit-btn" onclick="enableEdit(this)">Re-Edit</button>
+    </div>
+  </form>
+</div>
+
+
     </main>
     <div class="modal" id="successModal">
       <h4>Form submitted successfully!</h4>
@@ -1134,16 +1374,31 @@
     <script>
       const sections = document.querySelectorAll(".form-section");
       const sidebarButtons = document.querySelectorAll(".sidebar nav button");
-      function showSection(id) {
-        sections.forEach((sec) => sec.classList.remove("active"));
-        document.getElementById(id).classList.add("active");
-        sidebarButtons.forEach((btn) => btn.classList.remove("active"));
-        [...sidebarButtons]
-          .find((btn) => btn.textContent.trim().toLowerCase().includes(id))
-          .classList.add("active");
-        if (window.innerWidth <= 768)
-          document.getElementById("sidebar").classList.remove("show");
-      }
+  function showSection(id) {
+  // Hide all form sections
+  sections.forEach((sec) => {
+    sec.classList.remove("active");
+    sec.style.display = "none";
+  });
+
+  // Activate the selected section
+  const targetSection = document.getElementById(id);
+  targetSection.style.display = "block";
+  targetSection.classList.add("active");
+
+  // Update active button styling
+  sidebarButtons.forEach((btn) => btn.classList.remove("active"));
+  const matchingBtn = [...sidebarButtons].find((btn) =>
+    btn.innerText.trim().toLowerCase() === id.toLowerCase()
+  );
+  if (matchingBtn) matchingBtn.classList.add("active");
+
+  // 💥 Hide sidebar on mobile
+  if (window.innerWidth <= 768) {
+    document.getElementById("sidebar").classList.remove("show");
+  }
+}
+
       function toggleSidebar() {
         document.getElementById("sidebar").classList.toggle("show");
       }
@@ -1460,6 +1715,163 @@
           document.getElementById("progressText").innerText = "90%";
           document.getElementById("successModal").classList.add("active");
         });
+
+
+function addCertificateUpload() {
+  const container = document.getElementById("certificateUploads");
+  const input = document.createElement("input");
+  input.type = "file";
+  input.name = "certificate[]";
+  input.accept = ".pdf,.jpg,.png";
+  container.appendChild(input);
+}
+
+function addMedicalUpload() {
+  const container = document.getElementById("medicalUploads");
+  const input = document.createElement("input");
+  input.type = "file";
+  input.name = "medical[]";
+  input.accept = ".pdf,.jpg,.png";
+  container.appendChild(input);
+}
+
+document.getElementById("documentsForm").addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  const fileInputs = this.querySelectorAll('input[type="file"]');
+  let valid = true;
+
+  fileInputs.forEach((input) => {
+    if (input.hasAttribute("required") && !input.files.length) {
+      input.style.borderColor = "red";
+      valid = false;
+    } else {
+      input.style.borderColor = "#ccc";
+    }
+  });
+
+  if (!valid) {
+    alert("Please upload all required documents before submitting.");
+    return;
+  }
+
+  fileInputs.forEach((el) => el.disabled = true);
+  document.getElementById("progressBar").style.width = "100%";
+  document.getElementById("progressText").innerText = "100%";
+  document.getElementById("successModal").classList.add("active");
+});
+
+
+function previewPassportPhotos(input) {
+  const previewContainer = document.getElementById("passportPreview");
+  previewContainer.innerHTML = "";
+  const files = input.files;
+
+  if (files.length > 2) {
+    alert("Please upload only 2 passport photos.");
+    input.value = ""; // Reset
+    return;
+  }
+
+  for (let file of files) {
+    if (!file.type.startsWith("image/")) continue;
+
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      const img = document.createElement("img");
+      img.src = e.target.result;
+      previewContainer.appendChild(img);
+    };
+    reader.readAsDataURL(file);
+  }
+}
+
+function previewFileName(input, previewId) {
+  const preview = document.getElementById(previewId);
+  if (!preview) return;
+
+  const name = input.files[0]?.name || "No file selected";
+  const fileItem = document.createElement("div");
+  fileItem.textContent = `📄 ${name}`;
+  preview.appendChild(fileItem);
+}
+
+function addCertificateUpload() {
+  const card = document.querySelector('[name="certificate[]"]').closest(".upload-card");
+  const newInput = document.createElement("input");
+  newInput.type = "file";
+  newInput.name = "certificate[]";
+  newInput.accept = ".pdf,.doc,.docx";
+  newInput.required = true;
+  newInput.onchange = function () {
+    previewFileName(this, "certPreview");
+  };
+  card.insertBefore(newInput, card.querySelector("#certPreview"));
+}
+
+document.getElementById("documentsForm").addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  const requiredFiles = this.querySelectorAll('input[type="file"][required]');
+  let valid = true;
+
+  requiredFiles.forEach((input) => {
+    if (!input.files.length) {
+      input.style.borderColor = "red";
+      valid = false;
+    } else {
+      input.style.borderColor = "#ccc";
+    }
+  });
+
+  if (!valid) {
+    alert("Please ensure all required documents are uploaded.");
+    return;
+  }
+
+  // Disable form
+  this.querySelectorAll("input").forEach((el) => el.disabled = true);
+  document.getElementById("progressBar").style.width = "100%";
+  document.getElementById("progressText").innerText = "100%";
+  document.getElementById("successModal").classList.add("active");
+});
+
+
+function previewPassportPhotos(input) {
+  const previewContainer = document.getElementById("passportPreview");
+  previewContainer.innerHTML = "";
+  const files = input.files;
+
+  if (files.length > 2) {
+    alert("Only 2 passport photos are allowed.");
+    input.value = "";
+    return;
+  }
+
+  for (let file of files) {
+    if (!file.type.startsWith("image/")) continue;
+
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      const box = document.createElement("div");
+      box.className = "preview-box";
+
+      const img = document.createElement("img");
+      img.src = e.target.result;
+
+      const caption = document.createElement("span");
+      caption.textContent = file.name;
+
+      box.appendChild(img);
+      box.appendChild(caption);
+      previewContainer.appendChild(box);
+    };
+    reader.readAsDataURL(file);
+  }
+}
+
+
+
     </script>
   </body>
 </html>
