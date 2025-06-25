@@ -918,6 +918,36 @@ img, video {
   }
 }
 
+
+.modal {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 128, 0, 0.9);
+  color: white;
+  padding: 0.7rem 1.2rem;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 0.95rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  z-index: 999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.modal.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 </style>
 
 </head>
@@ -1499,10 +1529,18 @@ img, video {
 
 
     </main>
-    <div class="modal" id="successModal">
-      <h4>Form submitted successfully!</h4>
-      <button onclick="closeModal()">Close</button>
-    </div>
+
+   <div class="modal" id="successModal">
+  <div class="modal-box">
+    <span>✅ Submitted</span>
+  </div>
+</div>
+
+
+
+
+
+
     <script>
       const sections = document.querySelectorAll(".form-section");
       const sidebarButtons = document.querySelectorAll(".sidebar nav button");
@@ -2011,27 +2049,37 @@ document.querySelectorAll('#healthForm textarea, #healthForm input').forEach((el
 });
 
 
+function showModal() {
+  const modal = document.getElementById("successModal");
+  modal.classList.add("show");
+
+  // Auto-close after 3 seconds
+  setTimeout(() => {
+    modal.classList.remove("show");
+  }, 3000);
+}
+
+
     </script>
   
 <script>
-document.querySelectorAll('input, textarea, select').forEach((el) => {
-  el.addEventListener('focus', () => {
-    setTimeout(() => {
-      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }, 300);
-  });
-});
-</script>
-
-<script>
   document.querySelectorAll('input, textarea, select').forEach((el) => {
     el.addEventListener('focus', () => {
-      setTimeout(() => {
-        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }, 250);
+      const rect = el.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+
+      // Only scroll if input is below 60% of the viewport height (i.e. near bottom)
+      if (rect.top > viewportHeight * 0.6) {
+        setTimeout(() => {
+          el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 250);
+      }
     });
   });
 </script>
+
+
+
 
 
 </body>
