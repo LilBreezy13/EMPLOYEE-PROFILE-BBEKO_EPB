@@ -2,7 +2,9 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0" /> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
     <title>Staff Form Portal</title>
     <link
       rel="stylesheet"
@@ -837,9 +839,7 @@ form {
 
 
 
-    </style>
-  
-<style>
+   
   html, body {
     max-width: 100vw;
     overflow-x: hidden;
@@ -872,6 +872,52 @@ form {
       padding-right: 0.5rem;
     }
   }
+  
+
+  html, body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  font-size: 16px; /* prevent iOS zooming */
+}
+
+input, select, textarea {
+  font-size: 16px; /* prevent zoom on input */
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+}
+
+form, .form-grid, .form-group, .upload-grid, .content, .health-grid {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+img, video {
+  max-width: 100%;
+  height: auto;
+}
+
+.preview-thumbs,
+.passport-preview-container {
+  flex-wrap: wrap;
+  overflow-x: hidden;
+}
+
+@media (max-width: 768px) {
+  .form-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .form-group {
+    flex-direction: column;
+  }
+
+  body, .content, form {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+}
+
 </style>
 
 </head>
@@ -1976,6 +2022,17 @@ document.querySelectorAll('input, textarea, select').forEach((el) => {
   });
 });
 </script>
+
+<script>
+  document.querySelectorAll('input, textarea, select').forEach((el) => {
+    el.addEventListener('focus', () => {
+      setTimeout(() => {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 250);
+    });
+  });
+</script>
+
 
 </body>
 </html>
