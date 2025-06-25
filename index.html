@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0" /> -->
+   <!-- In the <head> -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
   <title>Employee/Admin Portal - Bbeko</title>
   <style>
     * {
@@ -11,6 +14,15 @@
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
     }
+
+    html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.container {
+  flex-wrap: wrap; /* allow content to wrap */
+}
 
     body {
       background: #eaeef7;
@@ -229,6 +241,21 @@
         clip-path: none;
         border-bottom-left-radius: 20px;
       }
+
+      .right-pane, .form-container {
+  width: 100%;
+  padding: 1rem;
+}
+
+input, select, button.submit {
+  font-size: 1rem;
+}
+
+input, select {
+  font-size: 16px; /* Prevent mobile zooming */
+}
+
+
     }
   </style>
 </head>
