@@ -918,29 +918,30 @@ img, video {
   }
 }
 
-
 .modal {
   position: fixed;
-  top: 20px;
+  top: 50%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate(-50%, -50%);
   background: rgba(0, 128, 0, 0.9);
   color: white;
-  padding: 0.7rem 1.2rem;
+  padding: 0.8rem 1.4rem;
   border-radius: 8px;
   font-weight: bold;
-  font-size: 0.95rem;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  font-size: 1rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
   z-index: 999;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.3s ease;
+  text-align: center;
 }
 
 .modal.show {
   opacity: 1;
   pointer-events: auto;
 }
+
 
 .modal-box {
   display: flex;
@@ -1111,7 +1112,7 @@ img, video {
        inputmode="numeric"
        maxlength="10"
        oninput="this.value = this.value.replace(/[^0-9]/g, '')"
-       required />
+        />
 
 
               <input
@@ -1395,7 +1396,8 @@ img, video {
         </form>
       </div>
 
-      <!-- REFERENCES   ------------------  --><div id="references" class="form-section">
+      <!-- REFERENCES   ------------------  -->
+       <div id="references" class="form-section">
   <h3 class="subsection" >References / Next of Kin</h3>
 
   <form id="referencesForm" class="references-box">
@@ -1518,13 +1520,27 @@ img, video {
       </div>
 
       <!-- Academic Certificates -->
-      <div class="upload-card">
-        <h4>Academic Certificates </h4>
-        <input type="file" name="certificate[]" accept=".pdf,.doc,.docx" required onchange="previewFileName(this, 'certPreview')" />
-        <input type="file" name="certificate[]" accept=".pdf,.doc,.docx" required onchange="previewFileName(this, 'certPreview')" />
-        <div id="certPreview" class="file-name-preview"></div>
-        <button type="button" class="btn-small" onclick="addCertificateUpload()">+ Upload More Certificates</button>
-      </div>
+   
+<div class="upload-card">
+  <h4>Academic Certificates</h4>
+
+  <!-- Initial certificate inputs -->
+  <div id="certificateInputs">
+    <input type="file" name="certificate[]" accept=".pdf,.doc,.docx" required onchange="previewFileName(this, 'certPreview')" />
+    <input type="file" name="certificate[]" accept=".pdf,.doc,.docx" required onchange="previewFileName(this, 'certPreview')" />
+    <input type="file" name="certificate[]" accept=".pdf,.doc,.docx" required onchange="previewFileName(this, 'certPreview')" />
+  </div>
+
+  <!-- Preview area -->
+  <div id="certPreview" class="file-name-preview"></div>
+
+  <!-- Dynamic upload area -->
+  <div id="certificateUploads"></div>
+
+  <!-- Add more button -->
+  <button type="button" class="btn-small" onclick="addCertificateUpload()">+ Upload More Certificates</button>
+</div>
+
 
       <!-- Medical Attachment -->
       <div class="upload-card">
@@ -1602,41 +1618,60 @@ img, video {
           document.getElementById("progressBar").style.width = "10%";
           document.getElementById("progressText").innerText = "10%";
           document.getElementById("successModal").classList.add("active");
+           showModal();
         });
-      document
-        .getElementById("maritalForm")
-        .addEventListener("submit", function (e) {
-          e.preventDefault();
-          this.querySelectorAll("input, select").forEach(
-            (el) => (el.disabled = true)
-          );
-          document.getElementById("progressBar").style.width = "20%";
-          document.getElementById("progressText").innerText = "20%";
-          document.getElementById("successModal").classList.add("active");
-        });
-      function closeModal() {
-        document.getElementById("successModal").classList.remove("active");
-      }
-      function enableEdit(btn) {
-        const form = btn.closest("form");
-        form
-          .querySelectorAll("input, select")
-          .forEach((el) => (el.disabled = false));
-      }
 
-      function toggleSpouseSection(radio) {
-        const spouseSection = document.getElementById("spouseDetails");
+ document.getElementById("maritalForm").addEventListener("submit", function (e) {
+  e.preventDefault();
 
-        // If 'Married' is selected, show the spouse section
-        if (radio.value === "Married") {
-          spouseSection.style.display = "block";
-        } else {
-          // If another status is selected, hide and clear the spouse section
-          spouseSection.style.display = "none";
-          const inputs = spouseSection.querySelectorAll("input");
-          inputs.forEach((input) => (input.value = ""));
-        }
+  const selected = this.querySelector('input[name="status"]:checked');
+  if (!selected) {
+    alert("Please select your marital status.");
+    return;
+  }
+
+  // Only validate spouse section if 'Married' is selected
+  if (selected.value === "Married") {
+    const spouseInputs = document.querySelectorAll("#spouseDetails input");
+    for (let input of spouseInputs) {
+      if (input.value.trim() === "") {
+        alert("Please complete spouse details.");
+        return;
       }
+    }
+  }
+
+  this.querySelectorAll("input, select").forEach(el => el.disabled = true);
+  document.getElementById("progressBar").style.width = "20%";
+  document.getElementById("progressText").innerText = "20%";
+  showModal();
+});
+
+
+   function enableEdit(btn) {
+  const form = btn.closest("form");
+  form.querySelectorAll("input, select, textarea, radio").forEach((el) => {
+    el.disabled = false;
+  });
+}
+
+
+function toggleSpouseSection(radio) {
+  const spouseSection = document.getElementById("spouseDetails");
+  const spouseInputs = spouseSection.querySelectorAll("input");
+
+  if (radio.value === "Married") {
+    spouseSection.style.display = "block";
+    spouseInputs.forEach(input => input.disabled = false);
+  } else {
+    spouseSection.style.display = "none";
+    spouseInputs.forEach(input => {
+      input.disabled = true;
+      input.value = ""; // clear previous values
+    });
+  }
+}
+
 
       document
         .getElementById("parentForm")
@@ -1646,6 +1681,7 @@ img, video {
           document.getElementById("progressBar").style.width = "30%";
           document.getElementById("progressText").innerText = "30%";
           document.getElementById("successModal").classList.add("active");
+           showModal();
         });
 
       function addEducation() {
@@ -1681,6 +1717,7 @@ img, video {
           document.getElementById("progressBar").style.width = "40%";
           document.getElementById("progressText").innerText = "40%";
           document.getElementById("successModal").classList.add("active");
+           showModal();
         });
 
       // Populate year dropdowns (1980 to current year)
@@ -1749,15 +1786,15 @@ img, video {
           this.querySelectorAll("input, select").forEach(
             (el) => (el.disabled = true)
           );
-          document.getElementById("progressBar").style.width = "40%";
-          document.getElementById("progressText").innerText = "40%";
+          document.getElementById("progressBar").style.width = "50%";
+          document.getElementById("progressText").innerText = "50%";
           document.getElementById("successModal").classList.add("active");
         });
 
       // Populate employment year selects (most recent to past)
       function populateEmpYears(select) {
         const currentYear = new Date().getFullYear();
-        for (let year = currentYear; year >= 1980; year--) {
+        for (let year = currentYear; year >= 1990; year--) {
           const option = document.createElement("option");
           option.value = year;
           option.text = year;
@@ -1838,6 +1875,7 @@ img, video {
           document.getElementById("progressBar").style.width = "60%";
           document.getElementById("progressText").innerText = "60%";
           document.getElementById("successModal").classList.add("active");
+           showModal();
         });
 
       function toggleHealthAnswer(header) {
@@ -1874,9 +1912,10 @@ img, video {
           this.querySelectorAll("textarea").forEach(
             (el) => (el.disabled = true)
           );
-          document.getElementById("progressBar").style.width = "80%";
-          document.getElementById("progressText").innerText = "80%";
+          document.getElementById("progressBar").style.width = "70%";
+          document.getElementById("progressText").innerText = "70%";
           document.getElementById("successModal").classList.add("active");
+           showModal();
         });
 
       document
@@ -1895,9 +1934,11 @@ img, video {
           }
 
           fields.forEach((id) => (document.getElementById(id).disabled = true));
-          document.getElementById("progressBar").style.width = "90%";
-          document.getElementById("progressText").innerText = "90%";
+          document.getElementById("progressBar").style.width = "80%";
+          document.getElementById("progressText").innerText = "80%";
           document.getElementById("successModal").classList.add("active");
+           showModal();
+          
         });
 
 document.getElementById("contactPersonsForm").addEventListener("submit", function (e) {
@@ -1923,8 +1964,8 @@ document.getElementById("contactPersonsForm").addEventListener("submit", functio
   }
 
   this.querySelectorAll("input").forEach((el) => el.disabled = true);
-  document.getElementById("progressBar").style.width = "95%";
-  document.getElementById("progressText").innerText = "95%";
+  document.getElementById("progressBar").style.width = "90%";
+  document.getElementById("progressText").innerText = "90%";
   showModal(); // Submit success modal
 });
 
@@ -1932,12 +1973,21 @@ document.getElementById("contactPersonsForm").addEventListener("submit", functio
 
 function addCertificateUpload() {
   const container = document.getElementById("certificateUploads");
-  const input = document.createElement("input");
-  input.type = "file";
-  input.name = "certificate[]";
-  input.accept = ".pdf,.jpg,.png";
-  container.appendChild(input);
+
+  const newInput = document.createElement("input");
+  newInput.type = "file";
+  newInput.name = "certificate[]";
+  newInput.accept = ".pdf,.doc,.docx";
+  newInput.required = true;
+
+  // Connect to file name preview
+  newInput.addEventListener("change", function () {
+    previewFileName(this, "certPreview");
+  });
+
+  container.appendChild(newInput);
 }
+
 
 function addMedicalUpload() {
   const container = document.getElementById("medicalUploads");
@@ -1972,6 +2022,7 @@ document.getElementById("documentsForm").addEventListener("submit", function (e)
   document.getElementById("progressBar").style.width = "100%";
   document.getElementById("progressText").innerText = "100%";
   document.getElementById("successModal").classList.add("active");
+   showModal();
 });
 
 
