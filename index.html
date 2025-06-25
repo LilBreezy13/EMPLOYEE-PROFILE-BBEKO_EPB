@@ -8,6 +8,13 @@
 
   <title>Employee/Admin Portal - Bbeko</title>
   <style>
+
+  html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+
     * {
       box-sizing: border-box;
       padding: 0;
@@ -15,11 +22,7 @@
       font-family: 'Segoe UI', sans-serif;
     }
 
-    html, body {
-  max-width: 100%;
-  overflow-x: hidden;
-}
-
+  
 .container {
   flex-wrap: wrap; /* allow content to wrap */
 }
@@ -43,6 +46,27 @@
       box-shadow: 0 0 40px rgba(0, 0, 0, 0.1);
       flex-direction: row;
     }
+
+    .container {
+  flex-wrap: wrap;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.right-pane, .form-container {
+  width: 100%;
+  max-width: 100%;
+  padding: 1rem;
+}
+
+input, select, button.submit {
+  width: 100%;
+  max-width: 100%;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
 
     .left-pane {
       flex: 1;
@@ -229,34 +253,36 @@
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    flex-wrap: wrap;
+  }
 
-    @media (max-width: 768px) {
-      .container {
-        flex-direction: column;
-      }
+  .left-pane {
+    width: 100%;
+    min-height: 180px;
+    clip-path: none;
+    border-bottom-left-radius: 20px;
+  }
 
-      .left-pane {
-        min-height: 200px;
-        order: -1;
-        clip-path: none;
-        border-bottom-left-radius: 20px;
-      }
+  .right-pane, .form-container {
+    width: 100%;
+    padding: 1rem;
+  }
 
-      .right-pane, .form-container {
-  width: 100%;
-  padding: 1rem;
+  input, select, button {
+    font-size: 16px;
+  }
+
+  .toggle-switch,
+  .form-toggle {
+    flex-wrap: wrap;
+  }
 }
 
-input, select, button.submit {
-  font-size: 1rem;
-}
-
-input, select {
-  font-size: 16px; /* Prevent mobile zooming */
-}
 
 
-    }
   </style>
 </head>
 <body>
