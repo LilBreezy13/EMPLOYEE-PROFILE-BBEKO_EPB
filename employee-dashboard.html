@@ -1034,13 +1034,17 @@ img, video {
               <option>Traditional</option>
               <option>Other</option>
             </select>
-            <input
-              type="tel"
-              name="contact"
-              placeholder="Contact Number"
-              pattern="[0-9]+"
-              required
-            />
+
+         <input type="tel"
+       name="contact"
+       id="contactNumber"
+       placeholder="Phone Number"
+       pattern="[0-9]{10}"
+       inputmode="numeric"
+       maxlength="10"
+       oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+       required />
+
           </div>
           <button type="submit">Submit</button>
           <button type="button" class="re-edit-btn" onclick="enableEdit(this)">
@@ -1099,12 +1103,17 @@ img, video {
                 placeholder="Name of Spouse"
               />
               <input type="date" name="spouseDob" placeholder="Spouse DOB" />
-              <input
-                type="tel"
-                name="spouseContact"
-                placeholder="Spouse Contact"
-                pattern="[0-9]+"
-              />
+             <input type="tel"
+       name="contact"
+       id="contactNumber"
+       placeholder="Spouse Contacts"
+       pattern="[0-9]{10}"
+       inputmode="numeric"
+       maxlength="10"
+       oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+       required />
+
+
               <input
                 type="number"
                 name="numChildren"
@@ -1136,13 +1145,16 @@ img, video {
       <div class="parent-entry">
         <h4>Mother's Information</h4>
         <input type="text" name="motherName" placeholder="Full Name" required />
-          <input
-              type="tel"
-              name="contact"
-              placeholder="Contact Number"
-              pattern="[0-9]+"
-              required
-            />
+          <input type="tel"
+       name="contact"
+       id="contactNumber"
+       placeholder="Phone Number"
+       pattern="[0-9]{10}"
+       inputmode="numeric"
+       maxlength="10"
+       oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+       required />
+
         <div class="status-options">
           <label><input type="radio" name="motherStatus" value="Living" required /> Living</label>
           <label><input type="radio" name="motherStatus" value="Deceased" /> Deceased</label>
@@ -1153,13 +1165,16 @@ img, video {
       <div class="parent-entry">
         <h4>Father's Information</h4>
         <input type="text" name="fatherName" placeholder="Full Name" required />
-           <input
-              type="tel"
-              name="contact"
-              placeholder="Contact Number"
-              pattern="[0-9]+"
-              required
-            />
+         <input type="tel"
+       name="contact"
+       id="contactNumber"
+       placeholder="Phone Number"
+       pattern="[0-9]{10}"
+       inputmode="numeric"
+       maxlength="10"
+       oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+       required />
+
         <div class="status-options">
           <label><input type="radio" name="fatherStatus" value="Living" required /> Living</label>
           <label><input type="radio" name="fatherStatus" value="Deceased" /> Deceased</label>
@@ -1384,26 +1399,20 @@ img, video {
   <h3 class="subsection" >References / Next of Kin</h3>
 
   <form id="referencesForm" class="references-box">
-    <input
-      type="text"
-      name="kinFullName"
-      placeholder="Full Name"
-      required
-    />
-    <input
-      type="date"
-      name="kinDOB"
-      placeholder="Date of Birth"
-      required
-    />
-    <input
-      type="tel"
-      name="kinContact"
-      placeholder="Contact Number"
-      pattern="[0-9]+"
-      inputmode="numeric"
-      required
-    />
+   <input type="text" id="kinFullName" name="kinFullName" placeholder="Full Name" required />
+
+  <input type="date" id="kinDOB" name="kinDOB" placeholder="Date of Birth" required />
+
+  <input type="tel"
+       name="contact"
+       id="kinContact"
+       placeholder="Phone Number"
+       pattern="[0-9]{10}"
+       inputmode="numeric"
+       maxlength="10"
+       oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+       required />
+
 
     <div class="btn-row">
       <button type="submit">Submit</button>
@@ -1418,7 +1427,8 @@ img, video {
   </form>
 </div>
 
-      <!-- CONTACT PERSONS  ------------------  --><div id="contactPersons" class="form-section">
+      <!-- CONTACT PERSONS  ------------------  -->
+       <div id="contactPersons" class="form-section">
   <h3 class="subsection" >Contact Persons</h3>
 
   <form id="contactPersonsForm">
@@ -1427,14 +1437,16 @@ img, video {
       <h4>Contact Person 1</h4>
       <input type="text" name="contact1Name" placeholder="Full Name" required />
       <input type="text" name="contact1Address" placeholder="Address" required />
-      <input
-        type="tel"
-        name="contact1Phone"
-        placeholder="Phone Number"
-        pattern="[0-9]+"
-        inputmode="numeric"
-        required
-      />
+    <input type="tel"
+       name="contact"
+       id="contactNumber"
+       placeholder="Phone Number"
+       pattern="[0-9]{10}"
+       inputmode="numeric"
+       maxlength="10"
+       oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+       required />
+
       <input type="text" name="contact1Relation" placeholder="Relationship" required />
     </div>
 
@@ -1443,14 +1455,16 @@ img, video {
       <h4>Contact Person 2</h4>
       <input type="text" name="contact2Name" placeholder="Full Name" required />
       <input type="text" name="contact2Address" placeholder="Address" required />
-      <input
-        type="tel"
-        name="contact2Phone"
-        placeholder="Phone Number"
-        pattern="[0-9]+"
-        inputmode="numeric"
-        required
-      />
+ <input type="tel"
+       name="contact"
+       id="contactNumber"
+       placeholder="Phone Number"
+       pattern="[0-9]{10}"
+       inputmode="numeric"
+       maxlength="10"
+       oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+       required />
+
       <input type="text" name="contact2Relation" placeholder="Relationship" required />
     </div>
 
@@ -1886,6 +1900,35 @@ img, video {
           document.getElementById("successModal").classList.add("active");
         });
 
+document.getElementById("contactPersonsForm").addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  const inputs = this.querySelectorAll("input[type='tel']");
+  let valid = true;
+
+  inputs.forEach((input) => {
+    const val = input.value.trim();
+    const isNumeric = /^[0-9]{10}$/.test(val);
+    if (!isNumeric) {
+      input.style.borderColor = "red";
+      valid = false;
+    } else {
+      input.style.borderColor = "#ccc";
+    }
+  });
+
+  if (!valid) {
+    alert("Each phone number must be 10 digits (e.g. 0509967235).");
+    return;
+  }
+
+  this.querySelectorAll("input").forEach((el) => el.disabled = true);
+  document.getElementById("progressBar").style.width = "95%";
+  document.getElementById("progressText").innerText = "95%";
+  showModal(); // Submit success modal
+});
+
+        
 
 function addCertificateUpload() {
   const container = document.getElementById("certificateUploads");
